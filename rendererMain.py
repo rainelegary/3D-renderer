@@ -3,6 +3,7 @@ time = __import__("time")  # import time
 
 main_timeStep = 0.01
 main_functionalSchematic = schematics_ratioSchematic
+print('this is a test! I repeat, this is a test!')
 
 def main(timeStep, schematic):
     myWindow = WindowSet('the window', '1500x750')
