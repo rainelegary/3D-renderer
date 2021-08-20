@@ -1,3 +1,6 @@
+import sys
+
+
 def ungroupListElements(outerList):
     ungrouped = []
     for subList in outerList:
@@ -37,23 +40,20 @@ def countSharedElements(listA=(), listB=(), orderMatters=True):
 
 
 def combineSchematics(addedSchematics=(), subtractedSchematics=()):
-    finalSchematic = {}
-    for schematic in addedSchematics:
-        for itemType in schematic:
-            for item in schematic[itemType]:
-                if itemType in finalSchematic:
-                    finalSchematic[itemType].append(item)
-                if itemType not in finalSchematic:
-                    finalSchematic[itemType] = []
 
-    for schematic in subtractedSchematics:
-        for itemType in schematic:
-            for sItem in schematic[itemType]:
-                for item in finalSchematic[itemType]:
-                    if countSharedElements(item, sItem, orderMatters=False) == len(item):
-                        if sItem in finalSchematic[itemType]:
-                            finalSchematic[itemType].remove(sItem)
-
-    return finalSchematic
+    for negSchem in subtractedSchematics:
+        for posSchemN in range(len(addedSchematics)):
+            posSchem = addedSchematics[posSchemN]
+            if negSchem['color'] in ['all', posSchem['color']]:
+                posSchem = subtractSchematic(posSchem, negSchem)
+                addedSchematics[posSchemN] = posSchem
+    
+    return addedSchematics
 
 
+
+def subtractSchematic(posSchem, negSchem):
+    for itemType in negSchem:
+        for item in negSchem[itemType]:
+            if item in posSchem[itemType]:
+                posSchem[itemType].remove(item)

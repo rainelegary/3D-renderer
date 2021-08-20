@@ -1,7 +1,8 @@
 from helperFunctions import *
 from random import random
 
-def cubeSchem():
+def cubeSchem(color='#F0F0F0'):
+
     # points
     c0 = -1
     c1 = 1
@@ -38,11 +39,11 @@ def cubeSchem():
                     triangles.append([pointA, pointB0, pointB1])
 
 
-    schematicDict = {'points': points, 'lines': lines, 'triangles': triangles}
+    schematicDict = {'points': points, 'lines': lines, 'triangles': triangles, 'color': color}
     return schematicDict
 
 
-def numRatioSchematic(trials):
+def numRatioSchematic(trials, color='#F0F0F0'):
     points = []
     for trial in range(trials):
         a_kills_b = random()
@@ -58,16 +59,17 @@ def numRatioSchematic(trials):
 
         points.append([aKDR, bKDR, cKDR])
 
-    schematicDict = {'points': points, 'lines': [], 'triangles': []}
+    schematicDict = {'points': points, 'lines': [], 'triangles': [], 'color': color}
     return schematicDict
 
 
 
-schematics_ratioSchematic = numRatioSchematic(trials=500)
+schematics_ratioSchematic = numRatioSchematic(trials=500, color='#F0F000')
 
-schematics_cubeSchematic = cubeSchem()
+schematics_cubeSchematic = cubeSchem(color='#50E060')
+schematics_cubeSchematic['triangles'] = []
 
-schematics_cubeCorners = {'points': cubeSchem()['points']}
-schematics_cubeWithoutCorners = combineSchematics(addedSchematics=[cubeSchem()], subtractedSchematics=[schematics_cubeCorners])
+schematics_cubeCorners = {'points': cubeSchem()['points'], 'color': 'all'}
+schematics_cubeWithoutCorners = combineSchematics(addedSchematics=[cubeSchem(color='#F0F0F0')], subtractedSchematics=[schematics_cubeCorners])
 
 
