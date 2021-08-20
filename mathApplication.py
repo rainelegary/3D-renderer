@@ -2,14 +2,21 @@ from specialMatrices import *
 from schematics import *
 from graphics import *
 
-def updatePoints(windowSetObj, timePassed, schematic):
-    points, lines, triangles = schematic['points'], schematic['lines'], schematic['triangles']
+def updatePoints(windowSetObj, timePassed, schematicList):
+    drawingDictList = []
 
-    geometry = doProjections(points, lines, triangles, timePassed)
-    points, lines, triangles = [geometry[i] for i in ['points', 'lines', 'triangles']]
+    for schematic in schematicList:
+        print(schematic)
+        points, lines, triangles = schematic['points'], schematic['lines'], schematic['triangles']
 
-    drawingDict = moveTo2D(windowSetObj, points, lines, triangles)
-    return drawingDict
+        geometry = doProjections(points, lines, triangles, timePassed)
+        points, lines, triangles = [geometry[i] for i in ['points', 'lines', 'triangles']]
+
+        drawingDict = moveTo2D(windowSetObj, points, lines, triangles)
+        drawingDict['color'] = schematic['color']
+        drawingDictList.append(drawingDict)
+
+    return drawingDictList
 
 
 def updateThetas(timePassed):

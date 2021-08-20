@@ -3,7 +3,7 @@ tk = __import__("tkinter")  # import tkinter as tk
 graphics_pointSize = 0.1
 
 class WindowSet:
-    def __init__(self, title, geometry, zoom=400, background='#303030', lineColor='#F0F0F0'):
+    def __init__(self, title, geometry, zoom=50, background='#303030', lineColor='#F0F0F0'):
         self.ownWindow = tk.Tk()
         self.ownCanvas = None
         self.title = title
@@ -39,26 +39,31 @@ class WindowSet:
         return xOut, yOut
 
 
-def drawFrame(windowObject, points=(), lines=(), triangles=(), pointSize=2):
+def drawFrame(windowObject, drawingDictList, pointSize=2):
     canvasObject = windowObject.ownCanvas
     canvasObject.delete("all")
-    for point in points:
-        canvasObject.create_oval(point[0]-pointSize/2, point[1]-pointSize/2, point[0]+pointSize/2, point[1]+pointSize/2,
-                                 fill=windowObject.lineColor, outline=windowObject.lineColor)
 
-    for line in lines:
-        canvasObject.create_line(line, fill=windowObject.lineColor)
+    for drawingDict in drawingDictList:
 
-    for triangle in triangles:
-        canvasObject.create_polygon(triangle, fill=canvasObject.lineColor)
+        color = drawingDict['color']
+
+        for point in drawingDict['points']:
+            canvasObject.create_oval(point[0]-pointSize/2, point[1]-pointSize/2, point[0]+pointSize/2, point[1]+pointSize/2,
+                                    fill=windowObject.lineColor, outline=color)
+
+        for line in drawingDict['lines']:
+            canvasObject.create_line(line, fill=color)
+
+        for triangle in drawingDict['triangles']:
+            canvasObject.create_polygon(triangle, fill=color)
 
 
-def coordsToPixel(coords):
-    xIn = coords[0]
-    yIn = coords[1]
+# def coordsToPixel(coords):
+#     xIn = coords[0]
+#     yIn = coords[1]
 
-    xOut = xIn * 50 + 750
-    yOut = yIn * 50 + 375
+#     xOut = xIn * 50 + 750
+#     yOut = yIn * 50 + 375
 
-    return xOut, yOut
+#     return xOut, yOut
 
