@@ -1,3 +1,5 @@
+from helperFunctions import *
+
 def cubeSchem(color='#F0F0F0'):
 
     # points
@@ -38,4 +40,10 @@ def cubeSchem(color='#F0F0F0'):
 
     schematicDict = {'points': points, 'lines': lines, 'triangles': triangles, 'color': color}
     return schematicDict
+
+
+schematics_cubeSchematic = cubeSchem(color='#50E060')
+schematics_cubeSchematic['triangles'] = []
+
+schematics_cubeCorners = {'points': cubeSchem()['points'], 'color': 'all'}
 
