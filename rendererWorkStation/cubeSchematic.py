@@ -46,4 +46,4 @@ schematics_cubeSchematic = cubeSchem(color='#50E060')
 schematics_cubeSchematic['triangles'] = []
 
 schematics_cubeCorners = {'points': cubeSchem()['points'], 'color': 'all'}
-
+schematics_cubeWithoutCorners = combineSchematics(addedSchematics=[cubeSchem(color='#F0F0F0')], subtractedSchematics=[schematics_cubeCorners])
