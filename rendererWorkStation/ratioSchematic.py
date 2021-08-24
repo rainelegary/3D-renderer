@@ -17,9 +17,6 @@ def numRatioSchematic(trials, color='#F0F0F0'):
 
         points.append([aKDR, bKDR, cKDR])
 
-    schematicDict = {'points': points, 'lines': [], 'triangles': [], 'color': color}
-    return schematicDict
+    colorSetDict = {'points': points, 'lines': [], 'triangles': [], 'color': color}
+    return colorSetDict
 
-
-
-schematics_ratioSchematic = numRatioSchematic(trials=500, color='#F0F000')
