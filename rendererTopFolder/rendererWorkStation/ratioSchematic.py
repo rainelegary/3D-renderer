@@ -1,7 +1,5 @@
 from random import random
 
-import sys
-sys.path.append('/3D-renderer/rendererWorkStation')
 
 def numRatioSchematic(trials, color='#F0F0F0'):
     points = []

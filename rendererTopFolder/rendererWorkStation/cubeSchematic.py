@@ -1,7 +1,5 @@
 from helperFunctions import *
 
-import sys
-sys.path.append('/3D-renderer/rendererWorkStation')
 
 def cubeSchem(color='#F0F0F0'):
 
