@@ -1,5 +1,7 @@
 from specialMatrices import *
 from rendererWorkStation.schematics import *
+# from rendererWorkStation.cubeSchematic import *
+# from rendererWorkStation.ratioSchematic import *
 from graphics import *
 
 def updatePoints(windowSetObj, timePassed, schematicList):
