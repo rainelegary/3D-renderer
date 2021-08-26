@@ -2,6 +2,7 @@ from helperFunctions import *
 
 
 def cubeSchem(color='#F0F0F0'):
+    pointSize = 2
 
     # points
     c0 = -1
@@ -39,6 +40,6 @@ def cubeSchem(color='#F0F0F0'):
                     triangles.append([pointA, pointB0, pointB1])
 
 
-    colorSetDict = {'points': points, 'lines': lines, 'triangles': triangles, 'color': color}
+    colorSetDict = {'points': points, 'lines': lines, 'triangles': triangles, 'color': color, 'point size': pointSize}
     return colorSetDict
 

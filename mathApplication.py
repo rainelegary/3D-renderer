@@ -1,5 +1,5 @@
 from specialMatrices import *
-from rendererWorkStation.schematics import *
+from rendererWorkStation.schematicLab import *
 from graphics import *
 
 
@@ -7,14 +7,16 @@ def updatePoints(windowSetObj, timePassed, schematicList):
     drawingDictList = []
 
     for schematic in schematicList:
-        print(schematic)
         points, lines, triangles = schematic['points'], schematic['lines'], schematic['triangles']
 
         geometry = doProjections(points, lines, triangles, timePassed)
         points, lines, triangles = [geometry[i] for i in ['points', 'lines', 'triangles']]
 
         drawingDict = moveTo2D(windowSetObj, points, lines, triangles)
+
         drawingDict['color'] = schematic['color']
+        drawingDict['point size'] = schematic['point size']
+
         drawingDictList.append(drawingDict)
 
     return drawingDictList
@@ -22,9 +24,10 @@ def updatePoints(windowSetObj, timePassed, schematicList):
 
 def updateThetas(timePassed):
     t = timePassed
-    thetaX = t / math.e
-    thetaY = t * math.pi / 3
-    thetaZ = t
+    # thetaX = t / math.e
+    # thetaY = t * math.pi / 3
+    # thetaZ = t
+    thetaX, thetaY, thetaZ = 0, 0, 0
     return {'thetaX': thetaX, 'thetaY': thetaY, 'thetaZ': thetaZ}
 
 

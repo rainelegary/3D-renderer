@@ -39,13 +39,14 @@ class WindowSet:
         return xOut, yOut
 
 
-def drawFrame(windowObject, drawingDictList, pointSize=2):
+def drawFrame(windowObject, drawingDictList):
     canvasObject = windowObject.ownCanvas
     canvasObject.delete("all")
 
     for drawingDict in drawingDictList:
 
         color = drawingDict['color']
+        pointSize = drawingDict['point size']
 
         for point in drawingDict['points']:
             canvasObject.create_oval(point[0]-pointSize/2, point[1]-pointSize/2, point[0]+pointSize/2, point[1]+pointSize/2,
