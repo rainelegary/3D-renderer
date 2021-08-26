@@ -2,12 +2,12 @@ from mathApplication import *
 time = __import__("time")  # import time
 
 main_timeStep = 0.01
-main_functionalSchematicList = [schematics_ratioSchematic, schematics_cubeSchematic]
+main_functionalSchematic = [schematics_ratioSet, schematics_cubeSet]
 
 
-def main(timeStep, schematicList):
+def main(timeStep, schematic):
     myWindow = WindowSet('the window', '1500x750')
-    runTime(timeStep, myWindow, schematicList)
+    runTime(timeStep, myWindow, schematic)
 
 
 def runTime(timeStep, myWindow, schematicList):
@@ -32,6 +32,6 @@ def windowLoop(windowSetObj, timePassed, schematicList):
 
 
 if __name__ == "__main__":
-    main(main_timeStep, main_functionalSchematicList)
+    main(main_timeStep, main_functionalSchematic)
 
 
