@@ -3,6 +3,7 @@ import numpy as np
 import random
 from schematicFuncs import *
 from specialMatrices import *
+from globalVars import *
 
 
 def initializeAtom(nOrbitals, nElectrons, nOrbitalSteps, bruhIdekConst=0, electronSize=5):
@@ -21,6 +22,7 @@ def initializeAtom(nOrbitals, nElectrons, nOrbitalSteps, bruhIdekConst=0, electr
 		# angles and dynamic radius
 		angleRadList = dynamicRadius(radiusRange, ellipticalRange, speedRange, nOrbitalSteps)
 		orbitProperties['angle & radius list'] = angleRadList
+		orbitProperties['rotation speeds'] = [random.uniform(-0.2, 0.2) for i in range(3)]
 
 		# transformation into 3D space
 		orbitProperties = transformOrbital(orbitProperties)
@@ -60,29 +62,18 @@ def dynamicRadius(radiusRange, ellipticalRange, speedRange, nOrbitalSteps):
 
 
 def transformOrbital(orbitProperties):
-	bruhIdekConst = orbitProperties['idk constant']
 	angleRadList = orbitProperties['angle & radius list']
 	nSteps = len(angleRadList)
 
-	# normalVector = randomVector(3)
-	# seedVector = randomVector(3)
-	# baseVector = convertToUnitVec(np.cross(normalVector, seedVector))
+	thetas = [random.uniform(0, 2*math.pi) for i in range(3)]
+	multMatrix = generateProjMat(thetas)
 	
-	# idkMatrix = np.array([baseVector, normalVector, seedVector])
-	thetaX, thetaY, thetaZ = random.uniform(0, 2*math.pi), random.uniform(0, 2*math.pi), random.uniform(0, 2*math.pi)
-
-
-	angleList = [el['angle'] for el in angleRadList]
-	radiusList = [el['radius'] for el in angleRadList]
-
-	for stepN in range(nSteps):
-		angle, radius = angleList[stepN], radiusList[stepN]
-		#angleVector = [math.cos(angle), 0, bruhIdekConst]
-		pointVec = np.dot(multMatrix, angleVector)
-		distance = math.sqrt(sum(el*el for el in pointVec))
-		point = [el*radius/distance for el in pointVec]
-
-		orbitProperties['points'].append(point)
+	cartesianList = polarToCartesian(angleRadList)
+	pointsMatrix = findTranspose(cartesianList)
+	projectedPoints = multMatrix.matMul(pointsMatrix)
+	points = findTranspose(projectedPoints)
+	
+	orbitProperties['points'] = points
 
 	return orbitProperties
 
@@ -107,6 +98,7 @@ def calcRadius(a, b, t):
 
 
 def passElectrons(electrons, nSteps):
+	print(electrons, nSteps)
 	for e in range(len(electrons)):
 		if electrons[e] == nSteps - 1:
 			electrons[e] = 0
@@ -158,3 +150,16 @@ class AtomSchematic(Schematic):
 			electrons = orbital['electron locations']
 			electrons = passElectrons(electrons, nSteps)
 			self.orbitalSet[orbitalN]['electron locations'] = electrons
+
+
+def polarToCartesian(angleRadList):
+	cartesianList = []
+	for polarCoord in angleRadList:
+		angle = polarCoord['angle']
+		radius = polarCoord['radius']
+		x = math.cos(angle)*radius
+		y = math.sin(angle)*radius
+		z = 0.0
+		cartesianList.append([x, y, z])
+	
+	return cartesianList

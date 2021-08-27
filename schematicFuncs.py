@@ -1,8 +1,11 @@
+
 # nuances of dynamic schematics
 
 # keep track of time
 # keep track of what the current schematic frame is
 # keep track of how many frames the schematic goes through [per second] or [per single increment]
+
+from globalVars import *
 
 class Schematic:
 	def __init__(self):
@@ -48,3 +51,9 @@ def subtractSchematic(posSchem, negSchem):
         for item in negSchem[itemType]:
             if item in posSchem[itemType]:
                 posSchem[itemType].remove(item)
+
+
+def updateRotation(ratesOfChange):
+	timePassed = renderVars.timeCreated
+	thetas = [rateOfChange*timePassed for rateOfChange in ratesOfChange]
+	return thetas

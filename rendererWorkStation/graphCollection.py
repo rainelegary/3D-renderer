@@ -15,9 +15,3 @@ class Sinusoidal(CustomGraph):
 	
 	def mainFunction(self, x):
 		return self.amplitude*math.sin((x - self.angleOffset)/self.wavelength)
-
-
-
-
-
-

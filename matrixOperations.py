@@ -1,5 +1,6 @@
 sys = __import__("sys")  # import sys
 math = __import__("math")  # import math
+from globalVars import *
 
 class ProjectionMatrix:
     def __init__(self, matrix):
@@ -30,7 +31,6 @@ class ProjectionMatrix:
 
     def matMul(self, otherMatrix=(), ownOnLeft=True):
         ownMatrix = self.matrix
-
         if ownOnLeft:
             leftMatrix = ownMatrix
             rightMatrix = otherMatrix
@@ -48,8 +48,8 @@ class ProjectionMatrix:
             resultingMatRow = []
             for resColNum in range(rightColCount):
                 resEntry = 0
-                if leftColCount != rightRowCount:
-                    sys.exit("incompatible matrix sizes in ProjectionMatrix >> matMul")
+                # if leftColCount != rightRowCount:
+                #     sys.exit("incompatible matrix sizes in ProjectionMatrix >> matMul")
                 for entryNum in range(rightRowCount):
                     resEntry += leftMatrix[resRowNum][entryNum] * rightMatrix[entryNum][resColNum]
 

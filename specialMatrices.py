@@ -2,7 +2,7 @@ from matrixOperations import *
 
 
 def generateProjMat(thetas):
-    thetaX, thetaY, thetaZ = [thetas[i] for i in ['thetaX', 'thetaY', 'thetaZ']]
+    thetaX, thetaY, thetaZ = [theta for theta in thetas]
 
     xRotationMatrix, yRotationMatrix, zRotationMatrix = rotationInX(thetaX), rotationInY(thetaY), rotationInZ(thetaZ)
     ortho_matrix = orthoMatrix()

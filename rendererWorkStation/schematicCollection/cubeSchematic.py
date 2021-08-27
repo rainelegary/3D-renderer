@@ -1,4 +1,5 @@
 from listModification import *
+from globalVars import *
 
 
 def cubeSchem(color='#F0F0F0'):

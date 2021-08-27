@@ -10,7 +10,7 @@ def updatePoints(windowSetObj, timePassed, schematicList):
     for schematic in schematicList:
         points, lines, triangles = schematic['points'], schematic['lines'], schematic['triangles']
 
-        geometry = doProjections(points, lines, triangles, timePassed)
+        geometry = doProjections(points, lines, triangles)
         points, lines, triangles = [geometry[i] for i in ['points', 'lines', 'triangles']]
 
         drawingDict = moveTo2D(windowSetObj, points, lines, triangles)
@@ -23,19 +23,10 @@ def updatePoints(windowSetObj, timePassed, schematicList):
     return drawingDictList
 
 
-# def updateThetas(timePassed):
-#     t = timePassed
-#     # thetaX = t / math.e
-#     # thetaY = t * math.pi / 3
-#     # thetaZ = t
-#     thetaX, thetaY, thetaZ = 0, 0, 0
-#     return {'thetaX': thetaX, 'thetaY': thetaY, 'thetaZ': thetaZ}
 
-
-
-
-def doProjections(points, lines, triangles, timePassed):
-    thetas = updateThetas(timePassed)
+def doProjections(points, lines, triangles):
+    thetaSpeeds = renderVars.angleRotationRates
+    thetas = updateRotation(thetaSpeeds)
     finalMatrix = generateProjMat(thetas)
 
     # point projection
