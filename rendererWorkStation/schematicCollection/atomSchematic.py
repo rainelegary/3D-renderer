@@ -2,6 +2,7 @@ import math
 import numpy as np
 import random
 from schematicFuncs import *
+from specialMatrices import *
 
 
 def initializeAtom(nOrbitals, nElectrons, nOrbitalSteps, bruhIdekConst=0, electronSize=5):
@@ -63,20 +64,21 @@ def transformOrbital(orbitProperties):
 	angleRadList = orbitProperties['angle & radius list']
 	nSteps = len(angleRadList)
 
-	normalVector = randomVector(3)
-	seedVector = randomVector(3)
-	baseVector = convertToUnitVec(np.cross(normalVector, seedVector))
+	# normalVector = randomVector(3)
+	# seedVector = randomVector(3)
+	# baseVector = convertToUnitVec(np.cross(normalVector, seedVector))
 	
-	idkMatrix = np.array([baseVector, normalVector, seedVector])
-	multMatrix = np.linalg.inv(idkMatrix)
+	# idkMatrix = np.array([baseVector, normalVector, seedVector])
+	thetaX, thetaY, thetaZ = random.uniform(0, 2*math.pi), random.uniform(0, 2*math.pi), random.uniform(0, 2*math.pi)
+
 
 	angleList = [el['angle'] for el in angleRadList]
 	radiusList = [el['radius'] for el in angleRadList]
 
 	for stepN in range(nSteps):
 		angle, radius = angleList[stepN], radiusList[stepN]
-		angleVector = [math.cos(angle), 0, bruhIdekConst]
-		pointVec = [component for component in np.dot(multMatrix, angleVector)]
+		#angleVector = [math.cos(angle), 0, bruhIdekConst]
+		pointVec = np.dot(multMatrix, angleVector)
 		distance = math.sqrt(sum(el*el for el in pointVec))
 		point = [el*radius/distance for el in pointVec]
 
@@ -147,8 +149,6 @@ class AtomSchematic(Schematic):
 			schematic.append(schemSet)
 
 		self.schematic = schematic
-
-			
 
 
 	def updateElectrons(self):

@@ -73,9 +73,6 @@ def combineMatrices(*matrixList):
     return recentMatrix
 
 
-
-
-
 def findTranspose(matrix):
 
     tEntries = []
@@ -87,5 +84,4 @@ def findTranspose(matrix):
         tEntries.append(tRow)
 
     return tEntries
-
 

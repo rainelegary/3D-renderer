@@ -1,6 +1,7 @@
 from specialMatrices import *
+from listModification import *
 from rendererWorkStation.schematicLab import *
-from graphics import *
+from display import *
 
 
 def updatePoints(windowSetObj, timePassed, schematicList):
@@ -22,22 +23,20 @@ def updatePoints(windowSetObj, timePassed, schematicList):
     return drawingDictList
 
 
-def updateThetas(timePassed):
-    t = timePassed
-    # thetaX = t / math.e
-    # thetaY = t * math.pi / 3
-    # thetaZ = t
-    thetaX, thetaY, thetaZ = 0, 0, 0
-    return {'thetaX': thetaX, 'thetaY': thetaY, 'thetaZ': thetaZ}
+# def updateThetas(timePassed):
+#     t = timePassed
+#     # thetaX = t / math.e
+#     # thetaY = t * math.pi / 3
+#     # thetaZ = t
+#     thetaX, thetaY, thetaZ = 0, 0, 0
+#     return {'thetaX': thetaX, 'thetaY': thetaY, 'thetaZ': thetaZ}
+
+
 
 
 def doProjections(points, lines, triangles, timePassed):
     thetas = updateThetas(timePassed)
-    thetaX, thetaY, thetaZ = [thetas[i] for i in ['thetaX', 'thetaY', 'thetaZ']]
-
-    xRotationMatrix, yRotationMatrix, zRotationMatrix = rotationInX(thetaX), rotationInY(thetaY), rotationInZ(thetaZ)
-    ortho_matrix = orthoMatrix()
-    finalMatrix = ProjectionMatrix(combineMatrices(xRotationMatrix, yRotationMatrix, zRotationMatrix, ortho_matrix))
+    finalMatrix = generateProjMat(thetas)
 
     # point projection
     if points:

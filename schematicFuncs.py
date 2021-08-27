@@ -28,3 +28,23 @@ def createRunningLine(points, closeShape=False):
 			lines.append([points[pointN], points[pointN-1]])
 
 	return lines
+
+
+def combineSchematics(addedSchematics=(), subtractedSchematics=()):
+
+    for negSchem in subtractedSchematics:
+        for posSchemN in range(len(addedSchematics)):
+            posSchem = addedSchematics[posSchemN]
+            if negSchem['color'] in ['all', posSchem['color']]:
+                posSchem = subtractSchematic(posSchem, negSchem)
+                addedSchematics[posSchemN] = posSchem
+    
+    return addedSchematics
+
+
+
+def subtractSchematic(posSchem, negSchem):
+    for itemType in negSchem:
+        for item in negSchem[itemType]:
+            if item in posSchem[itemType]:
+                posSchem[itemType].remove(item)

@@ -1,8 +1,6 @@
-from helperFunctions import *
-
-from rendererWorkStation.ratioSchematic import *
-from rendererWorkStation.cubeSchematic import *
-from rendererWorkStation.atomSchematic import *
+from rendererWorkStation.schematicCollection.ratioSchematic import *
+from rendererWorkStation.schematicCollection.cubeSchematic import *
+from rendererWorkStation.schematicCollection.atomSchematic import *
 
 
 coolAtom = AtomSchematic(10, 30, 100, bruhIdekConst=1)

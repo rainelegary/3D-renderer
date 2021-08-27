@@ -18,6 +18,7 @@ class WindowSet:
 
         self.initUI()
 
+
     def initUI(self):
         ownWindow = self.ownWindow
         ownWindow.title(self.title)
@@ -28,6 +29,7 @@ class WindowSet:
 
         self.ownWindow = ownWindow
         self.ownCanvas = ownCanvas
+
 
     def coordsToPixel(self, coordsGiven):
         xIn = coordsGiven[0]
@@ -58,13 +60,4 @@ def drawFrame(windowObject, drawingDictList):
         for triangle in drawingDict['triangles']:
             canvasObject.create_polygon(triangle, fill=color)
 
-
-# def coordsToPixel(coords):
-#     xIn = coords[0]
-#     yIn = coords[1]
-
-#     xOut = xIn * 50 + 750
-#     yOut = yIn * 50 + 375
-
-#     return xOut, yOut
 

@@ -1,4 +1,4 @@
-from mathApplication import *
+from schemToDrawing import *
 time = __import__("time")  # import time
 
 main_timeStep = 0.01
