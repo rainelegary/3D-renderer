@@ -1,6 +1,15 @@
 from matrixOperations import *
 
 
+def generateProjMat(thetas):
+    thetaX, thetaY, thetaZ = [theta for theta in thetas]
+
+    xRotationMatrix, yRotationMatrix, zRotationMatrix = rotationInX(thetaX), rotationInY(thetaY), rotationInZ(thetaZ)
+    ortho_matrix = orthoMatrix()
+    finalMatrix = ProjectionMatrix(combineMatrices(xRotationMatrix, yRotationMatrix, zRotationMatrix, ortho_matrix))
+    return finalMatrix
+
+
 def identityMat():
     idMat = ProjectionMatrix(matrix=[
         [1, 0, 0],

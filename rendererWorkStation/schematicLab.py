@@ -1,7 +1,9 @@
-from helperFunctions import *
+from rendererWorkStation.schematicCollection.ratioSchematic import *
+from rendererWorkStation.schematicCollection.cubeSchematic import *
+from rendererWorkStation.schematicCollection.atomSchematic import *
 
-from rendererWorkStation.ratioSchematic import *
-from rendererWorkStation.cubeSchematic import *
+
+coolAtom = AtomSchematic(10, 30, 100, bruhIdekConst=1)
 
 
 schematics_cubeSet = cubeSchem(color='#50E060')

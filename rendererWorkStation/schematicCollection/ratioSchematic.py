@@ -1,7 +1,10 @@
 from random import random
+from globalVars import *
 
 
 def numRatioSchematic(trials, color='#F0F0F0'):
+    pointSize = 2
+
     points = []
     for trial in range(trials):
         a_kills_b = random()
@@ -17,6 +20,6 @@ def numRatioSchematic(trials, color='#F0F0F0'):
 
         points.append([aKDR, bKDR, cKDR])
 
-    colorSetDict = {'points': points, 'lines': [], 'triangles': [], 'color': color}
+    colorSetDict = {'points': points, 'lines': [], 'triangles': [], 'color': color, 'point size': pointSize}
     return colorSetDict
 

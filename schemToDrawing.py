@@ -1,40 +1,33 @@
 from specialMatrices import *
-from rendererWorkStation.schematics import *
-from graphics import *
+from listModification import *
+from rendererWorkStation.schematicLab import *
+from display import *
 
 
 def updatePoints(windowSetObj, timePassed, schematicList):
     drawingDictList = []
 
     for schematic in schematicList:
-        print(schematic)
         points, lines, triangles = schematic['points'], schematic['lines'], schematic['triangles']
 
-        geometry = doProjections(points, lines, triangles, timePassed)
+        geometry = doProjections(points, lines, triangles)
         points, lines, triangles = [geometry[i] for i in ['points', 'lines', 'triangles']]
 
         drawingDict = moveTo2D(windowSetObj, points, lines, triangles)
+
         drawingDict['color'] = schematic['color']
+        drawingDict['point size'] = schematic['point size']
+
         drawingDictList.append(drawingDict)
 
     return drawingDictList
 
 
-def updateThetas(timePassed):
-    t = timePassed
-    thetaX = t / math.e
-    thetaY = t * math.pi / 3
-    thetaZ = t
-    return {'thetaX': thetaX, 'thetaY': thetaY, 'thetaZ': thetaZ}
 
-
-def doProjections(points, lines, triangles, timePassed):
-    thetas = updateThetas(timePassed)
-    thetaX, thetaY, thetaZ = [thetas[i] for i in ['thetaX', 'thetaY', 'thetaZ']]
-
-    xRotationMatrix, yRotationMatrix, zRotationMatrix = rotationInX(thetaX), rotationInY(thetaY), rotationInZ(thetaZ)
-    ortho_matrix = orthoMatrix()
-    finalMatrix = ProjectionMatrix(combineMatrices(xRotationMatrix, yRotationMatrix, zRotationMatrix, ortho_matrix))
+def doProjections(points, lines, triangles):
+    thetaSpeeds = renderVars.angleRotationRates
+    thetas = updateRotation(thetaSpeeds)
+    finalMatrix = generateProjMat(thetas)
 
     # point projection
     if points:
