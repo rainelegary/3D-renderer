@@ -1,5 +1,5 @@
-from listModification import *
-from globalVars import *
+from linearAlgebra.listModification import *
+from varStorage import *
 
 
 def cubeSchem(color='#F0F0F0'):

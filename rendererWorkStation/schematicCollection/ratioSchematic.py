@@ -1,5 +1,5 @@
 from random import random
-from globalVars import *
+from varStorage import *
 
 
 def numRatioSchematic(trials, color='#F0F0F0'):
