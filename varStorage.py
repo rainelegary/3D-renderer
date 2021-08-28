@@ -15,7 +15,9 @@ class DataHolder:
 
 class GeneralData(DataHolder):
 	def __init__(self):
+		super().__init__()
 		self.timeCreated = time.time()
+
 
 
 
