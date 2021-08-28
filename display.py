@@ -3,7 +3,7 @@ tk = __import__("tkinter")  # import tkinter as tk
 graphics_pointSize = 0.1
 
 class WindowSet:
-    def __init__(self, title, geometry, zoom=50, background='#303030', lineColor='#F0F0F0'):
+    def __init__(self, title, geometry, zoom=100, background='#303030', lineColor='#F0F0F0'):
         self.ownWindow = tk.Tk()
         self.ownCanvas = None
         self.title = title

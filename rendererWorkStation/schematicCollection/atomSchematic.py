@@ -2,11 +2,11 @@ import math
 import numpy as np
 import random
 from schematicFuncs import *
-from specialMatrices import *
-from globalVars import *
+from linearAlgebra.specialMatrices import *
+from varStorage import *
 
 
-def initializeAtom(nOrbitals, nElectrons, nOrbitalSteps, bruhIdekConst=0, electronSize=5):
+def initializeAtom(nOrbitals, nElectrons, nOrbitalSteps, electronSize=5):
 	phi = (math.sqrt(5)+1)/2
 	ellipticalRange = [1, phi*phi]
 	radiusRange = [1/phi, phi]
@@ -16,8 +16,7 @@ def initializeAtom(nOrbitals, nElectrons, nOrbitalSteps, bruhIdekConst=0, electr
 
 	for orbital in range(nOrbitals):
 		
-		orbitProperties = {'points': [], 'electron locations': [], 'idk constant': bruhIdekConst, 'color': '#F0F0F0',
-		 		   'point size': electronSize}
+		orbitProperties = {'points': [], 'electron locations': [], 'color': '#036BFC', 'point size': electronSize}
 
 		# angles and dynamic radius
 		angleRadList = dynamicRadius(radiusRange, ellipticalRange, speedRange, nOrbitalSteps)
@@ -66,11 +65,11 @@ def transformOrbital(orbitProperties):
 	nSteps = len(angleRadList)
 
 	thetas = [random.uniform(0, 2*math.pi) for i in range(3)]
-	multMatrix = generateProjMat(thetas)
+	multMatrix = matricesData.regRotationMat(thetas)
 	
 	cartesianList = polarToCartesian(angleRadList)
 	pointsMatrix = findTranspose(cartesianList)
-	projectedPoints = multMatrix.matMul(pointsMatrix)
+	projectedPoints = np.dot(multMatrix, pointsMatrix)
 	points = findTranspose(projectedPoints)
 	
 	orbitProperties['points'] = points
@@ -98,9 +97,8 @@ def calcRadius(a, b, t):
 
 
 def passElectrons(electrons, nSteps):
-	print(electrons, nSteps)
 	for e in range(len(electrons)):
-		if electrons[e] == nSteps - 1:
+		if electrons[e] in [nSteps - 1, nSteps]:
 			electrons[e] = 0
 		else:
 			electrons[e] += 1
@@ -109,9 +107,8 @@ def passElectrons(electrons, nSteps):
 
 
 class AtomSchematic(Schematic):
-	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, bruhIdekConst=0, electronSize=5):
-		self.orbitalSet = initializeAtom(nOrbitals, nElectrons, nOrbitalSteps, bruhIdekConst=bruhIdekConst,
-						 electronSize=electronSize)
+	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, electronSize=5):
+		self.orbitalSet = initializeAtom(nOrbitals, nElectrons, nOrbitalSteps, electronSize=electronSize)
 		self.currentFrame = self.orbitalSet
 		self.updateSchematic()
 
@@ -135,6 +132,8 @@ class AtomSchematic(Schematic):
 			schemSet = {}
 			color, points, electrons, pointSize = orbital['color'], orbital['points'], orbital['electron locations'], orbital['point size']
 			lines = createRunningLine(points, closeShape=True)
+
+
 			renderedPoints = [points[elec] for elec in electrons]
 			schemSet['color'], schemSet['points'], schemSet['lines'], schemSet['point size'] = color, renderedPoints, lines, pointSize
 			schemSet['triangles'] = []
@@ -146,6 +145,9 @@ class AtomSchematic(Schematic):
 	def updateElectrons(self):
 		for orbitalN in range(len(self.orbitalSet)):
 			orbital = self.orbitalSet[orbitalN]
+			orbital['points'].pop()
+
+
 			nSteps = len(orbital['points'])
 			electrons = orbital['electron locations']
 			electrons = passElectrons(electrons, nSteps)

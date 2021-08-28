@@ -1,19 +1,27 @@
-from specialMatrices import *
-from listModification import *
+import numpy as numpy
+
+from linearAlgebra.listModification import *
+from linearAlgebra.specialMatrices import *
+
 from rendererWorkStation.schematicLab import *
+
 from display import *
 
 
-def updatePoints(windowSetObj, timePassed, schematicList):
+def updatePoints(windowSetObj, schematicList):
     drawingDictList = []
+
+    thetaSpeeds = rendererMainData.angleRotationRates
+    thetas = updateRotation(thetaSpeeds)
+    multMatrix = matricesData.rotationProjMat(thetas)
 
     for schematic in schematicList:
         points, lines, triangles = schematic['points'], schematic['lines'], schematic['triangles']
 
-        geometry = doProjections(points, lines, triangles)
+        geometry = doProjections(multMatrix, points, lines, triangles)
         points, lines, triangles = [geometry[i] for i in ['points', 'lines', 'triangles']]
 
-        drawingDict = moveTo2D(windowSetObj, points, lines, triangles)
+        drawingDict = convertToDrawing(windowSetObj, points, lines, triangles)
 
         drawingDict['color'] = schematic['color']
         drawingDict['point size'] = schematic['point size']
@@ -24,35 +32,32 @@ def updatePoints(windowSetObj, timePassed, schematicList):
 
 
 
-def doProjections(points, lines, triangles):
-    thetaSpeeds = renderVars.angleRotationRates
-    thetas = updateRotation(thetaSpeeds)
-    finalMatrix = generateProjMat(thetas)
+def doProjections(multMatrix, points, lines, triangles): # to be separated into smaller bits
 
     # point projection
     if points:
         pointsMatrix = findTranspose(points)
-        projectedPoints = finalMatrix.matMul(pointsMatrix)
+        projectedPoints = np.dot(multMatrix, pointsMatrix)
         points = findTranspose(projectedPoints)
 
     # line projection
     if lines:
         linePoints = ungroupListElements(lines)
         linesMatrix = findTranspose(linePoints)
-        projectedLines = finalMatrix.matMul(linesMatrix)
+        projectedLines = np.dot(multMatrix, linesMatrix)
         lines = groupListElements(findTranspose(projectedLines), groupSize=2)
 
     # triangle projection
     if triangles:
         trianglePoints = ungroupListElements(triangles)
         trianglesMatrix = findTranspose(trianglePoints)
-        projectedTriangles = finalMatrix.matMul(trianglesMatrix)
+        projectedTriangles = np.dot(multMatrix, trianglesMatrix)
         triangles = groupListElements(findTranspose(projectedTriangles), groupSize=3)
 
     return {'points': points, 'lines': lines, 'triangles': triangles}
 
 
-def moveTo2D(windowSetObj, points, lines, triangles):
+def convertToDrawing(windowSetObj, points, lines, triangles):
     # unit conversion from coordinates to pixels
     # points
     allPointPixels = []
