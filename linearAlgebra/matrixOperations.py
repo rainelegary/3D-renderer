@@ -1,6 +1,8 @@
 sys = __import__("sys")  # import sys
 math = __import__("math")  # import math
-from globalVars import *
+
+from varStorage import *
+
 
 class ProjectionMatrix:
     def __init__(self, matrix):

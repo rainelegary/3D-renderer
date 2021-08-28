@@ -2,8 +2,8 @@ import math
 import numpy as np
 import random
 from schematicFuncs import *
-from specialMatrices import *
-from globalVars import *
+from linearAlgebra.specialMatrices import *
+from varStorage import *
 
 
 def initializeAtom(nOrbitals, nElectrons, nOrbitalSteps, bruhIdekConst=0, electronSize=5):

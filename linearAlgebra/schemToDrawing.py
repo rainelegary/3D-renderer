@@ -1,6 +1,8 @@
-from specialMatrices import *
-from listModification import *
+from linearAlgebra.specialMatrices import *
+from linearAlgebra.listModification import *
+
 from rendererWorkStation.schematicLab import *
+
 from display import *
 
 

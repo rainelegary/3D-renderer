@@ -1,4 +1,5 @@
-from schemToDrawing import *
+from linearAlgebra.schemToDrawing import *
+
 time = __import__("time")  # import time
 
 
