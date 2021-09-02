@@ -1,6 +1,4 @@
-import numpy as numpy
-
-from linearAlgebra.listModification import *
+from listModification import *
 from linearAlgebra.specialMatrices import *
 
 from rendererWorkStation.schematicLab import *

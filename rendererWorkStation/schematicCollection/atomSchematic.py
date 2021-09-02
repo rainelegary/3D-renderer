@@ -8,9 +8,17 @@ from varStorage import *
 
 class AtomSchematic(Schematic):
 	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, electronSize=5):
-		self.initializeOrbitals(nOrbitals, nElectrons, nOrbitalSteps, electronSize=electronSize)
-		self.currentFrame = self.orbitalSet
-		self.updateSchematic()
+		self.nOrbitals = nOrbitals
+		self.nElectrons = nElectrons
+		self.nOrbitalSteps = nOrbitalSteps
+		self.electronSize = electronSize
+
+		super().__init__()
+	
+
+	def createSchematic(self):
+		self.initializeOrbitals()
+		self.createSchemSets()
 
 
 	def updateSchematic(self):
@@ -38,7 +46,13 @@ class AtomSchematic(Schematic):
 		self.schematic = schematic
 
 
-	def initializeOrbitals(self, nOrbitals, nElectrons, nOrbitalSteps, electronSize=5):
+	def initializeOrbitals(self):
+		nOrbitals = self.nOrbitals
+		nElectrons = self.nElectrons
+		nOrbitalSteps = self.nOrbitalSteps
+		electronSize = self.electronSize
+
+
 		phi = (math.sqrt(5)+1)/2
 		ellipticalRange = [1, phi*phi]
 		radiusRange = [1/phi, phi]
@@ -90,7 +104,7 @@ class AtomSchematic(Schematic):
 		thetas = [random.uniform(0, 2*math.pi) for i in range(3)]
 		multMatrix = matricesData.regRotationMat(thetas)
 		
-		cartesianList = polarToCartesian(angleRadList)
+		cartesianList = self.polarToCartesian(angleRadList)
 		pointsMatrix = findTranspose(cartesianList)
 		projectedPoints = np.dot(multMatrix, pointsMatrix)
 		points = findTranspose(projectedPoints)
@@ -98,6 +112,19 @@ class AtomSchematic(Schematic):
 		orbitProperties['points'] = points
 
 		return orbitProperties
+
+
+	def polarToCartesian(self, angleRadList):
+		cartesianList = []
+		for polarCoord in angleRadList:
+			angle = polarCoord['angle']
+			radius = polarCoord['radius']
+			x = math.cos(angle)*radius
+			y = math.sin(angle)*radius
+			z = 0.0
+			cartesianList.append([x, y, z])
+		
+		return cartesianList
 
 
 	def distributeElectrons(self, orbitalSet, nElectrons):
@@ -133,15 +160,3 @@ class AtomSchematic(Schematic):
 				electrons[e] += 1
 		return electrons
 
-
-def polarToCartesian(angleRadList):
-	cartesianList = []
-	for polarCoord in angleRadList:
-		angle = polarCoord['angle']
-		radius = polarCoord['radius']
-		x = math.cos(angle)*radius
-		y = math.sin(angle)*radius
-		z = 0.0
-		cartesianList.append([x, y, z])
-	
-	return cartesianList
