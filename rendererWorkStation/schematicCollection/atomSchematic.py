@@ -113,8 +113,8 @@ class AtomSchematic(Schematic):
 		self.updateSchematic()
 
 
-	def __iter__(self):
-		return iter(self.schematic)
+	# def __iter__(self):
+	# 	return iter(self.schematic)
 
 
 	def updateSchematic(self):

@@ -10,6 +10,9 @@ from varStorage import *
 class Schematic:
 	def __init__(self):
 		print("Please override __init__() method for the Schematic class")
+
+	def __iter__(self):
+		return iter(self.schematic)
 	
 	def updateSchematic(self):
 		print("Please override updateSchematic() method for the Schematic class")
