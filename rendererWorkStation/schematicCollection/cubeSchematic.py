@@ -1,7 +1,6 @@
-from linearAlgebra.listModification import *
+from listModification import *
 from varStorage import *
 from schematicFuncs import *
-
 
 
 class CubeSchematic(Schematic):
@@ -12,15 +11,17 @@ class CubeSchematic(Schematic):
         self.color = color
         self.pointSize = pointSize
 
-        self.createSchematic()
+        super().__init__()
+
+
+    def createSchematic(self):
+        theSchemSet = self.createSchemSets()
+        self.schematic = [theSchemSet]
 
 
     def updateSchematic(self):
         pass
 
-    def createSchematic(self):
-        theSchemSet = self.createSchemSets()
-        self.schematic = [theSchemSet]
 
     def createSchemSets(self):
         points = self.generatePoints()

@@ -5,29 +5,33 @@
 # keep track of what the current schematic frame is
 # keep track of how many frames the schematic goes through [per second] or [per single increment]
 
-from linearAlgebra.listModification import ungroupListElements
+from listModification import ungroupListElements
 from varStorage import *
+import sys
+
 
 class Schematic:
 	def __init__(self):
-		print("Please override __init__() method for the Schematic class")
+		self.createSchematic()
+
 
 	def __iter__(self):
 		return iter(self.schematic)
 
-	def removeElements(self, featureTypes):
+	
+	def createSchematic(self):
+		sys.exit("Please override createSchematic() method for the schematic class")
+
+
+	def updateSchematic(self):
+		sys.exit("Please override updateSchematic() method for the Schematic class")
+
+
+	def removeElements(self, *featureTypes):
 		schematic = self.schematic
 		for featureType in featureTypes:
 			for schemSetN in range(len(schematic)):
 				schematic[schemSetN][featureType] = []
-	
-	def updateSchematic(self):
-		print("Please override updateSchematic() method for the Schematic class")
-
-	# may want to create a class method that updates all schematics simultaneously
-	@classmethod
-	def updateAllSchematics(cls):
-		print("the class method UpdateAllSchematics() in the Schematic class is not yet implemented")
 
 
 def createRunningLine(points, closeShape=False):
@@ -53,6 +57,7 @@ def combineSchematics(addedSchematics=(), subtractedSchematics=()):
 	finalSchematic = ungroupListElements(addedSchematics)
 	return finalSchematic
 
+
 def combineSchemSets(addedSchemSets=(), subtractedSchemSets=()):
 
     for negSchem in subtractedSchemSets:
@@ -76,3 +81,4 @@ def updateRotation(ratesOfChange):
 	timePassed = time.time() - renderVars.timeCreated
 	thetas = [rateOfChange*timePassed for rateOfChange in ratesOfChange]
 	return thetas
+

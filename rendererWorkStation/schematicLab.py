@@ -29,8 +29,9 @@ class schematicLabData(DataHolder):
 
 
 	def activateSchematics(self):
-		self.useAtomSchematic()
-		self.useCubeSchematic()
+		# self.useAtomSchematic()
+		# self.useCubeSchematic()
+		self.useRatioSchematic()
 
 
 	def useAtomSchematic(self):
@@ -40,8 +41,13 @@ class schematicLabData(DataHolder):
 
 	def useCubeSchematic(self):
 		self.coolCube = CubeSchematic(cubeRadius=0.05, color='#50E060', pointSize=2)
-		self.coolCube.removeElements(['points', 'triangles'])
+		self.coolCube.removeElements('points', 'triangles')
 		self.namedSchematics['cool cube'] = self.coolCube
+
+
+	def useRatioSchematic(self):
+		self.coolRatio = RatioSchem(trials=999)
+		self.namedSchematics['cool ratio'] = self.coolRatio
 
 
 	def updateSchematics(self):
