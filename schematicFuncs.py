@@ -13,6 +13,12 @@ class Schematic:
 
 	def __iter__(self):
 		return iter(self.schematic)
+
+	def removeElements(self, featureTypes):
+		schematic = self.schematic
+		for featureType in featureTypes:
+			for schemSetN in range(len(schematic)):
+				schematic[schemSetN][featureType] = []
 	
 	def updateSchematic(self):
 		print("Please override updateSchematic() method for the Schematic class")
@@ -37,23 +43,30 @@ def createRunningLine(points, closeShape=False):
 
 
 def combineSchematics(addedSchematics=(), subtractedSchematics=()):
+	for negSchem in subtractedSchematics:
+		for posSchemN in range(len(addedSchematics)):
+			posSchem = addedSchematics[posSchemN]
+			
+			addedSchematics[posSchemN] = combineSchemSets(addedSchemSets=posSchem, subtractedSchemSets=negSchem)
+	return addedSchematics
 
-    for negSchem in subtractedSchematics:
-        for posSchemN in range(len(addedSchematics)):
-            posSchem = addedSchematics[posSchemN]
+def combineSchemSets(addedSchemSets=(), subtractedSchemSets=()):
+
+    for negSchem in subtractedSchemSets:
+        for posSchemN in range(len(addedSchemSets)):
+            posSchem = addedSchemSets[posSchemN]
             if negSchem['color'] in ['all', posSchem['color']]:
-                posSchem = subtractSchematic(posSchem, negSchem)
-                addedSchematics[posSchemN] = posSchem
+                posSchem = subtractSchemSet(posSchem, negSchem)
+                addedSchemSets[posSchemN] = posSchem
     
-    return addedSchematics
+    return addedSchemSets
 
 
-
-def subtractSchematic(posSchem, negSchem):
-    for itemType in negSchem:
-        for item in negSchem[itemType]:
-            if item in posSchem[itemType]:
-                posSchem[itemType].remove(item)
+def subtractSchemSet(posSchemSet, negSchemSet):
+    for itemType in negSchemSet:
+        for item in negSchemSet[itemType]:
+            if item in posSchemSet[itemType]:
+                posSchemSet[itemType].remove(item)
 
 
 def updateRotation(ratesOfChange):

@@ -63,7 +63,12 @@ class CubeSchematic(Schematic):
         lines = self.generateLines()
         triangles = self.generateTriangles()
 
-        self.schematic = [{'points': points, 'lines': lines, 'triangles': triangles}]
+        theSchemSet = {}
+        theSchemSet['points'], theSchemSet['lines'], theSchemSet['triangles'] = points, lines, triangles
+        theSchemSet['color'] = self.color
+        theSchemSet['point size'] = self.pointSize
+
+        self.schematic = [theSchemSet]
 
 
     def generatePoints(self):
@@ -116,6 +121,4 @@ class CubeSchematic(Schematic):
 
         self.triangles = triangles
         return triangles
-    
-
 
