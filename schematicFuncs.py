@@ -5,6 +5,7 @@
 # keep track of what the current schematic frame is
 # keep track of how many frames the schematic goes through [per second] or [per single increment]
 
+from linearAlgebra.listModification import ungroupListElements
 from varStorage import *
 
 class Schematic:
@@ -48,7 +49,9 @@ def combineSchematics(addedSchematics=(), subtractedSchematics=()):
 			posSchem = addedSchematics[posSchemN]
 			
 			addedSchematics[posSchemN] = combineSchemSets(addedSchemSets=posSchem, subtractedSchemSets=negSchem)
-	return addedSchematics
+	
+	finalSchematic = ungroupListElements(addedSchematics)
+	return finalSchematic
 
 def combineSchemSets(addedSchemSets=(), subtractedSchemSets=()):
 
@@ -70,6 +73,6 @@ def subtractSchemSet(posSchemSet, negSchemSet):
 
 
 def updateRotation(ratesOfChange):
-	timePassed = renderVars.timeCreated
+	timePassed = time.time() - renderVars.timeCreated
 	thetas = [rateOfChange*timePassed for rateOfChange in ratesOfChange]
 	return thetas

@@ -10,7 +10,7 @@ def schematicLabMain():
 	global rendererMainData
 	rendererMainData = GeneralData()
 	rendererMainData.timeStep = 0.01
-	rendererMainData.angleRotationRates = [1/math.e, math.pi/3, 1]
+	rendererMainData.angleRotationRates = [0.120409324, 0.05345673, 0.03738627]
 
 
 	global schematicStructure
@@ -33,21 +33,20 @@ class schematicLabData(DataHolder):
 		self.useCubeSchematic()
 
 
-	def updateSchematics(self):
-		schemNames = self.namedSchematics
-		for schemName in self.namedSchematics:
-			self.namedSchematics[schemName].updateSchematic()
-
-
 	def useAtomSchematic(self):
-		self.coolAtom = AtomSchematic(nOrbitals=5, nElectrons=10, nOrbitalSteps=100, electronSize=5)
+		self.coolAtom = AtomSchematic(nOrbitals=5, nElectrons=30, nOrbitalSteps=100, electronSize=5)
 		self.namedSchematics['cool atom'] = self.coolAtom
 
 
 	def useCubeSchematic(self):
-		self.coolCube = CubeSchematic(cubeRadius=1, color='#50E060', pointSize=2)
+		self.coolCube = CubeSchematic(cubeRadius=0.05, color='#50E060', pointSize=2)
 		self.coolCube.removeElements(['points', 'triangles'])
 		self.namedSchematics['cool cube'] = self.coolCube
+
+
+	def updateSchematics(self):
+		for schemName in self.namedSchematics:
+			self.namedSchematics[schemName].updateSchematic()
 
 
 schematicLabMain()

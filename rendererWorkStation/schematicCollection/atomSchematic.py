@@ -102,7 +102,6 @@ def passElectrons(electrons, nSteps):
 			electrons[e] = 0
 		else:
 			electrons[e] += 1
-	print(electrons, nSteps)
 	return electrons
 
 

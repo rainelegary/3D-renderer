@@ -8,23 +8,23 @@ from rendererWorkStation.schematicLab import *
 from display import *
 
 
-def updatePoints(windowSetObj, schematicList):
+def updatePoints(windowSetObj, schematic):
     drawingDictList = []
 
     thetaSpeeds = rendererMainData.angleRotationRates
     thetas = updateRotation(thetaSpeeds)
     multMatrix = matricesData.rotationProjMat(thetas)
 
-    for schematic in schematicList:
-        points, lines, triangles = schematic['points'], schematic['lines'], schematic['triangles']
+    for schemSet in schematic:
+        points, lines, triangles = schemSet['points'], schemSet['lines'], schemSet['triangles']
 
         geometry = doProjections(multMatrix, points, lines, triangles)
         points, lines, triangles = [geometry[i] for i in ['points', 'lines', 'triangles']]
 
         drawingDict = convertToDrawing(windowSetObj, points, lines, triangles)
 
-        drawingDict['color'] = schematic['color']
-        drawingDict['point size'] = schematic['point size']
+        drawingDict['color'] = schemSet['color']
+        drawingDict['point size'] = schemSet['point size']
 
         drawingDictList.append(drawingDict)
 

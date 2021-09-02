@@ -18,11 +18,10 @@ def windowLoop(windowSetObj):
     schematicStructure.updateSchematics()
     schematic = combineSchematics(addedSchematics=[schematicStructure.namedSchematics[schemName].schematic for schemName in schematicStructure.namedSchematics])
 
-    print(schematic)
-
 
     drawingDictList = updatePoints(windowSetObj, schematic)
     drawFrame(windowSetObj, drawingDictList)
+    
     window.update()
 
 
