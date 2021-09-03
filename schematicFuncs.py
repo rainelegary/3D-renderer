@@ -10,7 +10,7 @@ from varStorage import *
 import sys
 
 
-class Schematic:
+class BaseSchematic:
 	def __init__(self):
 		self.createSchematic()
 
@@ -20,11 +20,7 @@ class Schematic:
 
 	
 	def createSchematic(self):
-		sys.exit("Please override createSchematic() method for the schematic class")
-
-
-	def updateSchematic(self):
-		sys.exit("Please override updateSchematic() method for the Schematic class")
+		sys.exit("Please override createSchematic() method for the BaseSchematic class")
 
 
 	def removeElements(self, *featureTypes):
@@ -32,6 +28,18 @@ class Schematic:
 		for featureType in featureTypes:
 			for schemSetN in range(len(schematic)):
 				schematic[schemSetN][featureType] = []
+
+
+	
+
+
+class DynamicSchematic:
+	def updateSchematic(self):
+		sys.exit("Please override updateSchematic() method for the DynamicSchematic class")
+
+
+def hasParent(classInstance, parentClassName):
+	return parentClassName in [baseClass.__name__ for baseClass in classInstance.__class__.__bases__]
 
 
 def createRunningLine(points, closeShape=False):
@@ -81,4 +89,6 @@ def updateRotation(ratesOfChange):
 	timePassed = time.time() - renderVars.timeCreated
 	thetas = [rateOfChange*timePassed for rateOfChange in ratesOfChange]
 	return thetas
+
+
 

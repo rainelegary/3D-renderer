@@ -28,31 +28,48 @@ class schematicLabData(DataHolder):
 		self.activateSchematics()
 
 
-	def activateSchematics(self):
-		# self.useAtomSchematic()
-		# self.useCubeSchematic()
-		self.useRatioSchematic()
+	# Which schematics are being used? 
 
+	def activateSchematics(self):
+		self.useAtomSchematic()
+		self.useCubeSchematic()
+		# self.useRatioSchematic()
+
+
+	# Customize Schematics
 
 	def useAtomSchematic(self):
 		self.coolAtom = AtomSchematic(nOrbitals=5, nElectrons=30, nOrbitalSteps=100, electronSize=5)
-		self.namedSchematics['cool atom'] = self.coolAtom
+
+		self.addToNamedSchems(self.coolAtom, 'cool atom')
 
 
 	def useCubeSchematic(self):
 		self.coolCube = CubeSchematic(cubeRadius=0.05, color='#50E060', pointSize=2)
 		self.coolCube.removeElements('points', 'triangles')
-		self.namedSchematics['cool cube'] = self.coolCube
+
+		self.addToNamedSchems(self.coolCube, 'cool cube')
 
 
 	def useRatioSchematic(self):
 		self.coolRatio = RatioSchem(trials=999)
-		self.namedSchematics['cool ratio'] = self.coolRatio
 
+		self.addToNamedSchems(self.coolRatio, 'cool ratio')
+
+
+	# Customization ends here
 
 	def updateSchematics(self):
 		for schemName in self.namedSchematics:
-			self.namedSchematics[schemName].updateSchematic()
+			if self.namedSchematics[schemName]['is dynamic']:
+				self.namedSchematics[schemName]['schem object'].updateSchematic()
+
+
+	def addToNamedSchems(self, schemObject, schemName):
+		self.namedSchematics[schemName] = {}
+		self.namedSchematics[schemName]['schem object'] = schemObject
+		self.namedSchematics[schemName]['is dynamic'] = hasParent(schemObject, 'DynamicSchematic')
+
 
 
 schematicLabMain()

@@ -3,7 +3,7 @@ from varStorage import *
 from schematicFuncs import *
 
 
-class CubeSchematic(Schematic):
+class CubeSchematic(BaseSchematic):
     def __init__(self, cubeRadius, color='#F0F0F0', pointSize=2):
         self.schematic = []
         self.minCoord = -cubeRadius
@@ -17,10 +17,6 @@ class CubeSchematic(Schematic):
     def createSchematic(self):
         theSchemSet = self.createSchemSets()
         self.schematic = [theSchemSet]
-
-
-    def updateSchematic(self):
-        pass
 
 
     def createSchemSets(self):
