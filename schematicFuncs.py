@@ -30,12 +30,17 @@ class BaseSchematic:
 				schematic[schemSetN][featureType] = []
 
 
-	
-
-
 class DynamicSchematic:
 	def updateSchematic(self):
 		sys.exit("Please override updateSchematic() method for the DynamicSchematic class")
+
+
+def fillBlankSet(schemSet):
+	default = {'points': [], 'lines': [], 'triangles': [], 'color': '#F0F0F0', 'point size': 2}
+	for itemType in default:
+		if itemType not in schemSet:
+			schemSet[itemType] = default[itemType]
+	return schemSet
 
 
 def hasParent(classInstance, parentClassName):

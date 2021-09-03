@@ -10,7 +10,8 @@ def schematicLabScript():
 	global rendererMainData
 	rendererMainData = GeneralData()
 	rendererMainData.timeStep = 0.01
-	rendererMainData.angleRotationRates = [0.120409324, 0.05345673, 0.03738627]
+	rendererMainData.background = '#141030'
+	rendererMainData.angleRotationRates = [0.120409324, 0.05345673, 0.03738627] # arbitrary numbers
 
 
 	global schematicStructure
@@ -20,7 +21,8 @@ def schematicLabScript():
 	global windowTracker
 	windowTracker = WindowData()
 	windowTracker.name = 'the window'
-	windowTracker.size = '1000x500'
+	windowTracker.geometry = '1000x500'
+	windowTracker.zoom = 100
 
 
 class schematicLabData(DataHolder):
@@ -36,13 +38,13 @@ class schematicLabData(DataHolder):
 	def activateSchematics(self):
 		self.useAtomSchematic()
 		self.useCubeSchematic()
-		# self.useRatioSchematic()
+		#self.useRatioSchematic()
 
 
 	# Customize Schematics
 
 	def useAtomSchematic(self):
-		self.coolAtom = AtomSchematic(nOrbitals=5, nElectrons=30, nOrbitalSteps=100, electronSize=5)
+		self.coolAtom = AtomSchematic(nOrbitals=10, nElectrons=100, nOrbitalSteps=100, electronSize=3)
 
 		self.addToNamedSchems(self.coolAtom, 'cool atom')
 
@@ -68,6 +70,7 @@ class schematicLabData(DataHolder):
 				self.namedSchematics[schemName]['schem object'].updateSchematic()
 
 		self.schematic = combineSchematics(addedSchematics=[schematicStructure.namedSchematics[schemName]['schem object'].schematic for schemName in schematicStructure.namedSchematics])
+
 
 	def addToNamedSchems(self, schemObject, schemName):
 		self.namedSchematics[schemName] = {}

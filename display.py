@@ -3,62 +3,66 @@ from rendererWorkStation.schematicLab import *
 
 
 class WindowSet:
-    def __init__(self, title, geometry, zoom=100, background='#303030', lineColor='#F0F0F0'):
+    def __init__(self):
         self.ownWindow = tk.Tk()
         self.ownCanvas = None
-        self.title = title
 
-        self.geometry = geometry
-        self.width = int(geometry.split('x')[0])
-        self.height = int(geometry.split('x')[1])
-        self.zoom = zoom
-
-        self.background = background
-        self.lineColor = lineColor
-
-        self.initUI()
+        self.initDisplay()
 
 
-    def initUI(self):
+    def initDisplay(self):
         ownWindow = self.ownWindow
-        ownWindow.title(self.title)
-        ownWindow.geometry(self.geometry)
+        self.ownWindow.title(windowTracker.name)
+        self.ownWindow.geometry(windowTracker.geometry)
 
-        ownCanvas = tk.Canvas(ownWindow, bg=self.background)
-        ownCanvas.place(x=0, y=0, width=self.width, height=self.height)
+        self.width = int(windowTracker.geometry.split('x')[0])
+        self.height = int(windowTracker.geometry.split('x')[1])
+        self.zoom = windowTracker.zoom
 
-        self.ownWindow = ownWindow
-        self.ownCanvas = ownCanvas
+        self.ownCanvas = tk.Canvas(ownWindow, bg=rendererMainData.background)
+        self.ownCanvas.place(x=0, y=0, width=self.width, height=self.height)
 
 
     def coordsToPixel(self, coordsGiven):
-        xIn = coordsGiven[0]
-        yIn = coordsGiven[1]
-
-        xOut = xIn * self.zoom + self.width / 2
-        yOut = yIn * self.zoom + self.height / 2
-
+        xOut = coordsGiven[0] * self.zoom + self.width / 2
+        yOut = coordsGiven[1] * self.zoom + self.height / 2
         return xOut, yOut
 
 
-def redrawCanvas(drawingDictList):
-    windowSetObj = windowTracker.windowSetObj
-    canvasObject = windowSetObj.ownCanvas
-    canvasObject.delete("all")
+    def redrawCanvas(self, drawingDictList):
+        self.ownCanvas.delete("all")
 
-    for drawingDict in drawingDictList:
+        for drawingDict in drawingDictList:
+            self.drawFeatures(drawingDict)
 
+
+    def drawFeatures(self, drawingDict):
+        points = drawingDict['points']
+        lines = drawingDict['lines']
+        triangles = drawingDict['triangles']
         color = drawingDict['color']
         pointSize = drawingDict['point size']
 
-        for point in drawingDict['points']:
-            canvasObject.create_oval(point[0]-pointSize/2, point[1]-pointSize/2, point[0]+pointSize/2, point[1]+pointSize/2,
+        self.drawPoints(points, color, pointSize)
+        self.drawLines(lines, color)
+        self.drawTriangles(triangles, color)
+
+    
+    def drawPoints(self, points, color, pointSize):
+         for point in points:
+            self.ownCanvas.create_oval(point[0]-pointSize/2, point[1]-pointSize/2, point[0]+pointSize/2, point[1]+pointSize/2,
                                     fill=color, outline=color)
 
-        for line in drawingDict['lines']:
-            canvasObject.create_line(line, fill=color)
 
-        for triangle in drawingDict['triangles']:
-            canvasObject.create_polygon(triangle, fill=color)
+    def drawLines(self, lines, color):
+         for line in lines:
+            self.ownCanvas.create_line(line, fill=color)
+
+    
+    def drawTriangles(self, triangles, color):
+        for triangle in triangles:
+            self.ownCanvas.create_polygon(triangle, fill=color)
+
+
 
 
