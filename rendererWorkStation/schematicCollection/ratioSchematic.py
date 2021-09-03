@@ -3,7 +3,7 @@ from varStorage import *
 from schematicFuncs import *
 
 
-class RatioSchem(Schematic):
+class RatioSchem(BaseSchematic):
     def __init__(self, trials, color='#F0F0F0', pointSize=2):
         self.trials = trials
         self.color = color
@@ -16,10 +16,6 @@ class RatioSchem(Schematic):
         points = self.runTrials()
         self.schematic = [{'points': points, 'color': self.color, 'point size': self.pointSize}]
         self.removeElements('lines', 'triangles')
-
-
-    def updateSchematic(self):
-        pass
 
 
     def runTrials(self):

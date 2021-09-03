@@ -6,7 +6,7 @@ from linearAlgebra.specialMatrices import *
 from varStorage import *
 
 
-class AtomSchematic(Schematic):
+class AtomSchematic(BaseSchematic, DynamicSchematic):
 	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, electronSize=5):
 		self.nOrbitals = nOrbitals
 		self.nElectrons = nElectrons
