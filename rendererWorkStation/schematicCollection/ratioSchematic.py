@@ -32,6 +32,6 @@ class RatioSchem(BaseSchematic):
             bKDR = (b_kills_a + b_kills_c) / (a_kills_b + c_kills_b)
             cKDR = (c_kills_a + c_kills_b) / (a_kills_c + b_kills_c)
 
-            points.append([aKDR, bKDR, cKDR])
+            points.append([[aKDR, bKDR, cKDR]])
         
         return points

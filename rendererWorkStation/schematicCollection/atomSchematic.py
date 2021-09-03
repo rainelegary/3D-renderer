@@ -114,7 +114,8 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 		cartesianList = self.polarToCartesian(angleRadList)
 		pointsMatrix = findTranspose(cartesianList)
 		projectedPoints = np.dot(multMatrix, pointsMatrix)
-		points = findTranspose(projectedPoints)
+
+		points = [[pointCoords] for pointCoords in findTranspose(projectedPoints)]
 		
 		orbitProperties['points'] = points
 

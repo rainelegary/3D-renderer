@@ -39,7 +39,7 @@ class CubeSchematic(BaseSchematic):
         for xVal in [c0, c1]:
             for yVal in [c0, c1]:
                 for zVal in [c0, c1]:
-                    points.append([xVal, yVal, zVal])
+                    points.append([[xVal, yVal, zVal]])
 
         self.points = points
         return points
@@ -53,10 +53,10 @@ class CubeSchematic(BaseSchematic):
             for coordB in points:
                 sharedDimCount = 0
                 for comp in range(3):
-                    if coordA[comp] == coordB[comp]:
+                    if coordA[0][comp] == coordB[0][comp]:
                         sharedDimCount += 1
                 if sharedDimCount == 2:
-                    lines.append([coordA, coordB])
+                    lines.append([coordA[0], coordB[0]])
         
         self.lines = lines
         return lines
@@ -70,15 +70,15 @@ class CubeSchematic(BaseSchematic):
         triangles = []
         triOriginPoints = []
         for point in points:
-            xVal, yVal, zVal = point[0], point[1], point[2]
+            xVal, yVal, zVal = point[0][0], point[0][1], point[0][2]
             if zVal == c0 and xVal == yVal or zVal == c1 and xVal != yVal:
                 triOriginPoints.append(point)
 
         for pointA in triOriginPoints:
             for pointB0 in points:
                 for pointB1 in points:
-                    if pointB0 != pointB1 and countSharedElements(pointA, pointB0) == 2 and countSharedElements(pointA, pointB1) == 2:
-                        triangles.append([pointA, pointB0, pointB1])
+                    if pointB0 != pointB1 and countSharedElements(pointA[0], pointB0[0]) == 2 and countSharedElements(pointA[0], pointB1[0]) == 2:
+                        triangles.append([pointA[0], pointB0[0], pointB1[0]])
 
         self.triangles = triangles
         return triangles

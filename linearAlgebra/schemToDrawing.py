@@ -30,29 +30,27 @@ def schemToStrokes(schematic):
 
 
 
-def doProjections(multMatrix, points, lines, triangles): # to be separated into smaller bits
-
-    # point projection
+def doProjections(multMatrix, points, lines, triangles):
     if points:
-        pointsMatrix = findTranspose(points)
-        projectedPoints = np.dot(multMatrix, pointsMatrix)
-        points = findTranspose(projectedPoints)
+        points = projectFeatures(multMatrix, points)
 
-    # line projection
     if lines:
-        linePoints = ungroupListElements(lines)
-        linesMatrix = findTranspose(linePoints)
-        projectedLines = np.dot(multMatrix, linesMatrix)
-        lines = groupListElements(findTranspose(projectedLines), groupSize=2)
+        lines = projectFeatures(multMatrix, lines)
 
-    # triangle projection
     if triangles:
-        trianglePoints = ungroupListElements(triangles)
-        trianglesMatrix = findTranspose(trianglePoints)
-        projectedTriangles = np.dot(multMatrix, trianglesMatrix)
-        triangles = groupListElements(findTranspose(projectedTriangles), groupSize=3)
+        triangles = projectFeatures(multMatrix, triangles)
 
     return {'points': points, 'lines': lines, 'triangles': triangles}
+
+
+def projectFeatures(multMatrix, features):
+    featureSize = len(features[0])
+    featuresMatrix = findTranspose(ungroupListElements(features))
+    projectedFeatures = np.dot(multMatrix, featuresMatrix)
+    features = groupListElements(findTranspose(projectedFeatures), groupSize=featureSize)
+    return features
+
+
 
 
 def allCoordConversions(points, lines, triangles):
@@ -62,7 +60,7 @@ def allCoordConversions(points, lines, triangles):
 
     allPointPixels = []
     for point in points:
-        pixelCoords = windowSetObj.coordsToPixel(point)
+        pixelCoords = windowSetObj.coordsToPixel(point[0])
         allPointPixels.append(pixelCoords)
 
     # lines

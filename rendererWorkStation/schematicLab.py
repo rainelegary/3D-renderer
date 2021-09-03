@@ -37,7 +37,7 @@ class schematicLabData(DataHolder):
 
 	def activateSchematics(self):
 		self.useAtomSchematic()
-		self.useCubeSchematic()
+		#self.useCubeSchematic()
 		#self.useRatioSchematic()
 
 
