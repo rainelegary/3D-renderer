@@ -1,38 +1,28 @@
 from linearAlgebra.schemToDrawing import *
-
-time = __import__("time")  # import time
+import time
 
 
 def main():
-    myWindow = createWindow()
-    runTime(myWindow) # use varStorage classes to store myWindow globally
-
-
-def windowLoop(windowSetObj):
-    timeStep = rendererMainData.timeStep
-    time.sleep(timeStep)
-
-    window = windowSetObj.ownWindow
-
-    schematicStructure.updateSchematics()
-    schematic = combineSchematics(addedSchematics=[schematicStructure.namedSchematics[schemName]['schem object'].schematic for schemName in schematicStructure.namedSchematics])
-
-
-    drawingDictList = updatePoints(windowSetObj, schematic)
-    drawFrame(windowSetObj, drawingDictList)
-    
-    window.update()
-
-
-def runTime(myWindow):
-    while True:
-        windowLoop(myWindow)
+    createWindow()
+    runTime()
 
 
 def createWindow():
-    myWindow = WindowSet('the window', '1500x750')
-    return myWindow
-        
+    myWindow = WindowSet(windowTracker.name, windowTracker.size)
+    windowTracker.windowSetObj = myWindow
+
+
+def runTime():
+    while True:
+        time.sleep(rendererMainData.timeStep)
+        windowLoop()
+
+
+def windowLoop():
+    schematicStructure.updateSchematics()
+    redrawCanvas(schemToStrokes(schematicStructure.schematic))
+    windowTracker.windowSetObj.ownWindow.update()
+
 
 if __name__ == "__main__":
     main()

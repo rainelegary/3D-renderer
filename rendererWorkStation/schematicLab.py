@@ -5,7 +5,7 @@ from rendererWorkStation.schematicCollection.atomSchematic import *
 from varStorage import *
 
 
-def schematicLabMain():
+def schematicLabScript():
 	#customize time step
 	global rendererMainData
 	rendererMainData = GeneralData()
@@ -16,8 +16,11 @@ def schematicLabMain():
 	global schematicStructure
 	schematicStructure = schematicLabData()
 
-	#schematics_ratioSet = numRatioSchematic(trials=500, color='#F0F000')
-	
+
+	global windowTracker
+	windowTracker = WindowData()
+	windowTracker.name = 'the window'
+	windowTracker.size = '1000x500'
 
 
 class schematicLabData(DataHolder):
@@ -64,6 +67,7 @@ class schematicLabData(DataHolder):
 			if self.namedSchematics[schemName]['is dynamic']:
 				self.namedSchematics[schemName]['schem object'].updateSchematic()
 
+		self.schematic = combineSchematics(addedSchematics=[schematicStructure.namedSchematics[schemName]['schem object'].schematic for schemName in schematicStructure.namedSchematics])
 
 	def addToNamedSchems(self, schemObject, schemName):
 		self.namedSchematics[schemName] = {}
@@ -72,4 +76,5 @@ class schematicLabData(DataHolder):
 
 
 
-schematicLabMain()
+
+schematicLabScript()

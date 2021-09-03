@@ -1,6 +1,6 @@
-tk = __import__("tkinter")  # import tkinter as tk
+import tkinter as tk
+from rendererWorkStation.schematicLab import *
 
-graphics_pointSize = 0.1
 
 class WindowSet:
     def __init__(self, title, geometry, zoom=100, background='#303030', lineColor='#F0F0F0'):
@@ -41,8 +41,9 @@ class WindowSet:
         return xOut, yOut
 
 
-def drawFrame(windowObject, drawingDictList):
-    canvasObject = windowObject.ownCanvas
+def redrawCanvas(drawingDictList):
+    windowSetObj = windowTracker.windowSetObj
+    canvasObject = windowSetObj.ownCanvas
     canvasObject.delete("all")
 
     for drawingDict in drawingDictList:
@@ -52,7 +53,7 @@ def drawFrame(windowObject, drawingDictList):
 
         for point in drawingDict['points']:
             canvasObject.create_oval(point[0]-pointSize/2, point[1]-pointSize/2, point[0]+pointSize/2, point[1]+pointSize/2,
-                                    fill=windowObject.lineColor, outline=color)
+                                    fill=color, outline=color)
 
         for line in drawingDict['lines']:
             canvasObject.create_line(line, fill=color)

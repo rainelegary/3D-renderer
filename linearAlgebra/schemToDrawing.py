@@ -6,8 +6,8 @@ from rendererWorkStation.schematicLab import *
 from display import *
 
 
-def updatePoints(windowSetObj, schematic):
-    drawingDictList = []
+def schemToStrokes(schematic):
+    strokes = []
 
     thetaSpeeds = rendererMainData.angleRotationRates
     thetas = updateRotation(thetaSpeeds)
@@ -19,14 +19,14 @@ def updatePoints(windowSetObj, schematic):
         geometry = doProjections(multMatrix, points, lines, triangles)
         points, lines, triangles = [geometry[i] for i in ['points', 'lines', 'triangles']]
 
-        drawingDict = convertToDrawing(windowSetObj, points, lines, triangles)
+        drawingDict = allCoordConversions(points, lines, triangles)
 
         drawingDict['color'] = schemSet['color']
         drawingDict['point size'] = schemSet['point size']
 
-        drawingDictList.append(drawingDict)
+        strokes.append(drawingDict)
 
-    return drawingDictList
+    return strokes
 
 
 
@@ -55,9 +55,11 @@ def doProjections(multMatrix, points, lines, triangles): # to be separated into 
     return {'points': points, 'lines': lines, 'triangles': triangles}
 
 
-def convertToDrawing(windowSetObj, points, lines, triangles):
+def allCoordConversions(points, lines, triangles):
     # unit conversion from coordinates to pixels
-    # points
+    # points 
+    windowSetObj = windowTracker.windowSetObj
+
     allPointPixels = []
     for point in points:
         pixelCoords = windowSetObj.coordsToPixel(point)
