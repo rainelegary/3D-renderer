@@ -33,15 +33,17 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 		schematic = []
 		orbitals = self.orbitalSet
 		for orbital in orbitals:
-			schemSet = {}
+			schemSetLines = {}
 			color, points, electrons, pointSize = orbital['color'], orbital['points'], orbital['electron locations'], orbital['point size']
 			lines = createRunningLine(points, closeShape=True)
 
 
 			renderedPoints = [points[elec] for elec in electrons]
-			schemSet['color'], schemSet['points'], schemSet['lines'], schemSet['point size'] = color, renderedPoints, lines, pointSize
-			schemSet['triangles'] = []
-			schematic.append(schemSet)
+			schemSetLines['color'], schemSetLines['lines'] = color, lines
+			schemSetLines['triangles'] = []
+			schemSetLines['points'] = []
+
+			schematic.append(schemSetLines)
 
 		self.schematic = schematic
 
