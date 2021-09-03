@@ -8,7 +8,7 @@ def main():
 
 
 def createWindow():
-    myWindow = WindowSet(windowTracker.name, windowTracker.size)
+    myWindow = WindowSet()
     windowTracker.windowSetObj = myWindow
 
 
@@ -20,7 +20,7 @@ def runTime():
 
 def windowLoop():
     schematicStructure.updateSchematics()
-    redrawCanvas(schemToStrokes(schematicStructure.schematic))
+    windowTracker.windowSetObj.redrawCanvas(schemToStrokes(schematicStructure.schematic))
     windowTracker.windowSetObj.ownWindow.update()
 
 

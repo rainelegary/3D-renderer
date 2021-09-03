@@ -33,17 +33,22 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 		schematic = []
 		orbitals = self.orbitalSet
 		for orbital in orbitals:
-			schemSetLines = {}
-			color, points, electrons, pointSize = orbital['color'], orbital['points'], orbital['electron locations'], orbital['point size']
-			lines = createRunningLine(points, closeShape=True)
-
-
+			points, electrons, pointSize = orbital['points'], orbital['electron locations'], orbital['point size']
+			orbitalColor = orbital['orbital color']
+			electronColor = orbital['electron color']
+			
 			renderedPoints = [points[elec] for elec in electrons]
-			schemSetLines['color'], schemSetLines['lines'] = color, lines
-			schemSetLines['triangles'] = []
-			schemSetLines['points'] = []
+			pointSet = {}
+			pointSet['points'], pointSet['color'], pointSet['point size'] = renderedPoints, electronColor, pointSize
+			pointSet = fillBlankSet(pointSet)
 
-			schematic.append(schemSetLines)
+			lines = createRunningLine(points, closeShape=True)
+			lineSet = {}
+			lineSet['lines'], lineSet['color'] = lines, orbitalColor
+			lineSet = fillBlankSet(lineSet)
+
+			schematic.append(pointSet)
+			schematic.append(lineSet)
 
 		self.schematic = schematic
 
@@ -64,7 +69,7 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 
 		for orbital in range(nOrbitals):
 			
-			orbitProperties = {'points': [], 'electron locations': [], 'color': '#036BFC', 'point size': electronSize}
+			orbitProperties = {'points': [], 'electron locations': [], 'orbital color': '#036BFC', 'electron color': '#F0F0F0', 'point size': electronSize}
 
 			# angles and dynamic radius
 			angleRadList = self.dynamicRadius(radiusRange, ellipticalRange, speedRange, nOrbitalSteps)

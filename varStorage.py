@@ -19,7 +19,7 @@ class GeneralData(DataHolder):
 
 class WindowData(DataHolder):
 	def __init__(self):
-		pass
+		super().__init__()
 
 
 
