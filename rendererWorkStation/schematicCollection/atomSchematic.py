@@ -54,8 +54,8 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 
 
 		phi = (math.sqrt(5)+1)/2
-		ellipticalRange = [1, phi*phi]
-		radiusRange = [1/phi, phi]
+		ellipticalRange = [phi, phi]
+		radiusRange = [1, 1]
 		speedRange = [1/phi, phi]
 
 		allOrbitals = []
