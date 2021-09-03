@@ -3,7 +3,7 @@ from varStorage import *
 from linearAlgebra.matrixOperations import *
 
 
-def specialMatricesMain():
+def specialMatricesScript():
 	global matricesData
 	matricesData = UniqueMatrices()
 
@@ -74,5 +74,5 @@ class UniqueMatrices(DataHolder):
 
 
 
-specialMatricesMain()
+specialMatricesScript()
 
