@@ -62,6 +62,10 @@ class schematicLabData(DataHolder):
 		self.addToNamedSchems(self.coolRatio, 'cool ratio')
 
 
+	# Customize schematic descendants
+
+	# ...
+
 	# Customization ends here
 
 	def updateSchematics(self):

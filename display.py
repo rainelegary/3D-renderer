@@ -50,7 +50,7 @@ class WindowSet:
     
     def drawPoints(self, points, color, pointSize):
          for point in points:
-            self.ownCanvas.create_oval(point[0]-pointSize/2, point[1]-pointSize/2, point[0]+pointSize/2, point[1]+pointSize/2,
+             self.ownCanvas.create_oval(point[0][0]-pointSize/2, point[0][1]-pointSize/2, point[0][0]+pointSize/2, point[0][1]+pointSize/2,
                                     fill=color, outline=color)
 
 

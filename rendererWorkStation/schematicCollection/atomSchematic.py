@@ -78,7 +78,6 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 
 			# transformation into 3D space
 			orbitProperties = self.transformOrbital(orbitProperties)
-
 			allOrbitals.append(orbitProperties)
 		
 		orbitalSet = self.distributeElectrons(allOrbitals, nElectrons)
@@ -114,7 +113,8 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 		cartesianList = self.polarToCartesian(angleRadList)
 		pointsMatrix = findTranspose(cartesianList)
 		projectedPoints = np.dot(multMatrix, pointsMatrix)
-		points = findTranspose(projectedPoints)
+
+		points = [[pointCoords] for pointCoords in findTranspose(projectedPoints)]
 		
 		orbitProperties['points'] = points
 
@@ -150,7 +150,7 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 	def updateElectrons(self):
 		for orbitalN in range(len(self.orbitalSet)):
 			orbital = self.orbitalSet[orbitalN]
-			orbital['points'].pop()
+			orbital['points'].pop() # workaround for electron glitch
 
 
 			nSteps = len(orbital['points'])

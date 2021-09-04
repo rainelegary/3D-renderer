@@ -55,7 +55,7 @@ def createRunningLine(points, closeShape=False):
 	for pointN in range(len(points)):
 		point = points[pointN]
 		if pointN > 0:
-			lines.append([points[pointN], points[pointN-1]])
+			lines.append([points[pointN][0], points[pointN-1][0]])
 
 	return lines
 
