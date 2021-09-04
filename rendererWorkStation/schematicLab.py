@@ -37,7 +37,7 @@ class schematicLabData(DataHolder):
 
 	def activateSchematics(self):
 		self.useAtomSchematic()
-		#self.useCubeSchematic()
+		self.useCubeSchematic()
 		#self.useRatioSchematic()
 
 
@@ -61,6 +61,10 @@ class schematicLabData(DataHolder):
 
 		self.addToNamedSchems(self.coolRatio, 'cool ratio')
 
+
+	# Customize schematic descendants
+
+	# ...
 
 	# Customization ends here
 
