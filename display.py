@@ -44,8 +44,8 @@ class WindowSet:
         outlineTriangles = setSpecs['outline triangles']
         lineWidth = setSpecs['line width']
 
-        self.drawPoints(features['points'], colors['point fill'], colors['point outline'], pointSize)
         self.drawLines(features['lines'], colors['line color'], lineWidth=lineWidth)
+        self.drawPoints(features['points'], colors['point fill'], colors['point outline'], pointSize)
         self.drawTriangleFills(features['triangles'], colors['triangle fill'])
         if outlineTriangles: self.drawTriangleOutlines(features['triangles'], colors['triangle outline'], lineWidth)
     

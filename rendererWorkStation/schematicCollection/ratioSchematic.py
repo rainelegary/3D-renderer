@@ -1,5 +1,5 @@
 from random import random
-from varStorage import *
+from colorLab import *
 from schematicFuncs import *
 
 

@@ -3,16 +3,17 @@ import numpy as np
 import random
 from schematicFuncs import *
 from linearAlgebra.specialMatrices import *
-from varStorage import *
+from colorLab import *
 
 
 class AtomSchematic(BaseSchematic, DynamicSchematic):
-	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, colors, setSpecs):
+	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, colors, setSpecs, orbitalSettings):
 		self.nOrbitals = nOrbitals
 		self.nElectrons = nElectrons
 		self.nOrbitalSteps = nOrbitalSteps
 		self.colors = colors
 		self.setSpecs = setSpecs
+		self.orbitalSettings = orbitalSettings
 
 		super().__init__()
 	
@@ -38,15 +39,14 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 			colors = {'point fill': orbital['electron fill'],
 			'point outline': orbital['electron outline'],
 		        'line color': orbital['orbital color']}
-			electronSize = orbital['electron size']
+
 			renderedPoints = [points[elec] for elec in electrons]
 			lines = createRunningLine(points, closeShape=True)
 
 			schemSet = {'features': {'points': renderedPoints, 'lines': lines},
 			'colors': {'point fill': colors['point fill'], 'point outline': colors['point outline'], 'line color': colors['line color']},
-			'set specs': {'point size': electronSize, 'line width': 1}}
+			'set specs': {'point size': orbital['electron size'], 'line width': self.setSpecs['line width']}}
 			schemSet = fillBlankSet(schemSet)
-
 			schematic.append(schemSet)
 
 		self.schematic = schematic
@@ -57,16 +57,21 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 		nElectrons = self.nElectrons
 		nOrbitalSteps = self.nOrbitalSteps
 		setSpecs = self.setSpecs
-		colors = self.colors
+		orbitalSettings = self.orbitalSettings
 
-		phi = (math.sqrt(5)+1)/2
-		ellipticalRange = [phi, phi]
-		radiusRange = [1, 1]
-		speedRange = [1/phi, phi]
+		# phi = (math.sqrt(5)+1)/2
+		# ellipticalRange = [phi, phi]
+		# radiusRange = [1, 1]
+		# speedRange = [1/phi, phi]
+
+		ellipticalRange, radiusRange, speedRange = orbitalSettings['elliptical range'], orbitalSettings['radius range'], orbitalSettings['speed range']
+
 
 		allOrbitals = []
 
 		for orbital in range(nOrbitals):
+			colors = self.colors
+			colors['orbital color'] = random.choice(colors['orbital colors'])
 			
 			orbitProperties = {'points': [], 'electron locations': [], 'orbital color': colors['orbital color'], 'electron fill': colors['electron fill'], 'electron outline': colors['electron outline'], 'electron size': setSpecs['electron size']}
 

@@ -10,7 +10,7 @@ def schematicLabScript():
 	global rendererMainData
 	rendererMainData = GeneralData()
 	rendererMainData.timeStep = 0.01
-	rendererMainData.background = '#141030'
+	rendererMainData.background = colorPalettes.backgrounds['blue void']
 	rendererMainData.angleRotationRates = [0.120409324, 0.05345673, 0.03738627] # arbitrary numbers
 
 
@@ -33,9 +33,17 @@ class schematicLabData(DataHolder):
 	def customizeAtom(self):
 		visible = True
 		schemName = 'cool atom'
-		colors = {'orbital color': '#036BFC', 'electron fill': '#F0F0F0', 'electron outline': '#F0F0F0'}
-		setSpecs = {'electron size': 3}
-		schemObject = AtomSchematic(nOrbitals=10, nElectrons=100, nOrbitalSteps=100, colors=colors, setSpecs=setSpecs)
+		colors = {'orbital colors': colorPalettes.ocean, 'electron fill': '#F0F0F0', 'electron outline': '#F0F0F0'}
+		setSpecs = {'electron size': 3, 'line width': 1.5}
+		orbitalSettings = {}
+
+		phi = (math.sqrt(5)+1)/2
+		orbitalSettings['elliptical range'] = [phi, phi]
+		orbitalSettings['radius range'] = [1, 1]
+		orbitalSettings['speed range'] = [1/phi, phi]
+
+		schemObject = AtomSchematic(nOrbitals=10, nElectrons=100, nOrbitalSteps=100, colors=colors,
+					    setSpecs=setSpecs, orbitalSettings=orbitalSettings)
 		includedFeatures = {'points': True, 'lines': True}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
@@ -44,7 +52,7 @@ class schematicLabData(DataHolder):
 	def customizeCube(self):
 		visible = True
 		schemName = 'cool cube'
-		colors = {'line color': '#50E060'}
+		colors = {'line color': colorPalettes.fire[0]}
 		setSpecs = {'line width': 1}
 		schemObject = CubeSchematic(cubeRadius=0.05, colors=colors, setSpecs=setSpecs)
 		includedFeatures = {'points': False, 'lines': True, 'triangles': False}
@@ -92,6 +100,7 @@ class schematicLabData(DataHolder):
 		self.namedSchematics[schemName]['schem object'] = schemObject
 		self.namedSchematics[schemName]['is dynamic'] = hasParent(schemObject, 'DynamicSchematic')
 		self.namedSchematics[schemName]['included features'] = includedFeatures
+		self.namedSchematics[schemName]['presets'] = {}
 
 
 	def removeDiscludedFeatures(self):
