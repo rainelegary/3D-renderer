@@ -33,7 +33,9 @@ class schematicLabData(DataHolder):
 	def customizeAtom(self):
 		visible = True
 		schemName = 'cool atom'
-		schemObject = AtomSchematic(nOrbitals=10, nElectrons=100, nOrbitalSteps=100, electronSize=3)
+		colors = {'orbital color': '#036BFC', 'electron fill': '#F0F0F0', 'electron outline': '#F0F0F0'}
+		setSpecs = {'electron size': 3}
+		schemObject = AtomSchematic(nOrbitals=10, nElectrons=100, nOrbitalSteps=100, colors=colors, setSpecs=setSpecs)
 		includedFeatures = {'points': True, 'lines': True}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
@@ -42,7 +44,9 @@ class schematicLabData(DataHolder):
 	def customizeCube(self):
 		visible = True
 		schemName = 'cool cube'
-		schemObject = CubeSchematic(cubeRadius=0.05, fillColor='#50E060', outlineColor='#50E060', pointSize=2)
+		colors = {'line color': '#50E060'}
+		setSpecs = {'line width': 1}
+		schemObject = CubeSchematic(cubeRadius=0.05, colors=colors, setSpecs=setSpecs)
 		includedFeatures = {'points': False, 'lines': True, 'triangles': False}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
@@ -51,7 +55,9 @@ class schematicLabData(DataHolder):
 	def customizeRatio(self):
 		visible = False
 		schemName = 'cool ratio'
-		schemObject = RatioSchem(trials=999, fillColor='#00FF00', outlineColor='#00F000')
+		colors = {'point fill': '#00F000', 'point outline': '#00F000'}
+		setSpecs = {}
+		schemObject = RatioSchem(trials=999, colors=colors, setSpecs=setSpecs)
 		includedFeatures = {'points': True}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)

@@ -14,7 +14,8 @@ class RatioSchem(BaseSchematic):
 
     def createSchematic(self):
         points = self.runTrials()
-        self.schematic = [{'features': {'points': points}, 'colors': self.colors, 'set specs': self.setSpecs}]
+        self.schemSet = fillBlankSet({'features': {'points': points}, 'colors': self.colors, 'set specs': self.setSpecs})
+        self.schematic = [self.schemSet]
         # self.removeElements('lines', 'triangles')
 
 

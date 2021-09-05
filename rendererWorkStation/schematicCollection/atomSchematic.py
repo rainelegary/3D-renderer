@@ -33,23 +33,21 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 		schematic = []
 		orbitals = self.orbitalSet
 		for orbital in orbitals:
-			points, electrons, pointSize = orbital['points'], orbital['electron locations'], orbital['point size']
-			orbitalColor = orbital['orbital color']
-			electronColor = orbital['electron color']
+			# {'points': [], 'electron locations': [], 'orbital color': '#036BFC', 'electron fill': '#F0F0F0', 'electron outline': '#F0F0F0', 'electron size': electronSize}
+			points, electrons = orbital['points'], orbital['electron locations']
+			colors = {'point fill': orbital['electron fill'],
+			'point outline': orbital['electron outline'],
+		        'line color': orbital['orbital color']}
+			electronSize = orbital['electron size']
 			renderedPoints = [points[elec] for elec in electrons]
-
-			
-			pointSet = {}
-			pointSet['points'], pointSet['color'], pointSet['point size'] = renderedPoints, electronColor, pointSize
-			pointSet = fillBlankSet(pointSet)
-
 			lines = createRunningLine(points, closeShape=True)
-			lineSet = {}
-			lineSet['lines'], lineSet['color'] = lines, orbitalColor
-			lineSet = fillBlankSet(lineSet)
 
-			schematic.append(pointSet)
-			schematic.append(lineSet)
+			schemSet = {'features': {'points': renderedPoints, 'lines': lines},
+			'colors': {'point fill': colors['point fill'], 'point outline': colors['point outline'], 'line color': colors['line color']},
+			'set specs': {'point size': electronSize, 'line width': 1}}
+			schemSet = fillBlankSet(schemSet)
+
+			schematic.append(schemSet)
 
 		self.schematic = schematic
 
@@ -58,8 +56,8 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 		nOrbitals = self.nOrbitals
 		nElectrons = self.nElectrons
 		nOrbitalSteps = self.nOrbitalSteps
-		electronSize = self.electronSize
-
+		setSpecs = self.setSpecs
+		colors = self.colors
 
 		phi = (math.sqrt(5)+1)/2
 		ellipticalRange = [phi, phi]
@@ -70,7 +68,7 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 
 		for orbital in range(nOrbitals):
 			
-			orbitProperties = {'points': [], 'electron locations': [], 'orbital color': '#036BFC', 'electron color': '#F0F0F0', 'point size': electronSize}
+			orbitProperties = {'points': [], 'electron locations': [], 'orbital color': colors['orbital color'], 'electron fill': colors['electron fill'], 'electron outline': colors['electron outline'], 'electron size': setSpecs['electron size']}
 
 			# angles and dynamic radius
 			angleRadList = self.dynamicRadius(radiusRange, ellipticalRange, speedRange, nOrbitalSteps)

@@ -28,6 +28,7 @@ class CubeSchematic(BaseSchematic):
         theSchemSet['features'] = {'points': points, 'lines': lines, 'triangles': triangles}
         theSchemSet['colors'] = self.colors
         theSchemSet['set specs'] = self.setSpecs
+        theSchemSet = fillBlankSet(theSchemSet)
 
         return theSchemSet
 
