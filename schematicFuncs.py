@@ -27,7 +27,7 @@ class BaseSchematic:
 		schematic = self.schematic
 		for featureType in featureTypes:
 			for schemSetN in range(len(schematic)):
-				schematic[schemSetN][featureType] = []
+				schematic[schemSetN]['features'][featureType] = []
 
 
 class DynamicSchematic:
@@ -36,10 +36,16 @@ class DynamicSchematic:
 
 
 def fillBlankSet(schemSet):
-	default = {'points': [], 'lines': [], 'triangles': [], 'color': '#F0F0F0', 'point size': 2}
-	for itemType in default:
-		if itemType not in schemSet:
-			schemSet[itemType] = default[itemType]
+	default = {'features': {'points': [], 'lines': [], 'triangles': []},
+	 'colors': {'point fill': '#F0F0F0', 'point outline': '#F0F0F0', 'line color': '#F0F0F0', 'triangle fill': '#F0F0F0', 'triangle outline': '#F0F0F0'},
+	 'set specs': {'point size': 2, 'line width': 2, 'outline triangles': False}}
+	for detailType in default:
+		if detailType not in schemSet:
+			schemSet[detailType] = default[detailType]
+		else:
+			for itemType in default[detailType]:
+				if itemType not in schemSet[detailType]:
+					schemSet[detailType][itemType] = default[detailType][itemType]
 	return schemSet
 
 
@@ -74,20 +80,27 @@ def combineSchematics(addedSchematics=(), subtractedSchematics=()):
 def combineSchemSets(addedSchemSets=(), subtractedSchemSets=()):
 
     for negSchem in subtractedSchemSets:
-        for posSchemN in range(len(addedSchemSets)):
-            posSchem = addedSchemSets[posSchemN]
-            if negSchem['color'] in ['all', posSchem['color']]:
-                posSchem = subtractSchemSet(posSchem, negSchem)
-                addedSchemSets[posSchemN] = posSchem
+	    for posSchemN in range(len(addedSchemSets)):
+		    posSchem = addedSchemSets[posSchemN]
+		    posSchem = subtractSchemSet(posSchem, negSchem)
+		    addedSchemSets[posSchemN] = posSchem
     
     return addedSchemSets
 
 
+# def subtractSchemSet(posSchemSet, negSchemSet):
+#     for itemType in negSchemSet:
+#         for item in negSchemSet[itemType]:
+#             if item in posSchemSet[itemType]:
+#                 posSchemSet[itemType].remove(item)
+
+
 def subtractSchemSet(posSchemSet, negSchemSet):
-    for itemType in negSchemSet:
-        for item in negSchemSet[itemType]:
-            if item in posSchemSet[itemType]:
-                posSchemSet[itemType].remove(item)
+	for detailType in negSchemSet:
+		for itemType in negSchemSet[detailType]:
+			for item in negSchemSet[detailType][itemType]:
+				if item in posSchemSet[detailType][itemType]:
+					posSchemSet[detailType][itemType].remove(item)
 
 
 def updateRotation(ratesOfChange):

@@ -10,7 +10,7 @@ def schematicLabScript():
 	global rendererMainData
 	rendererMainData = GeneralData()
 	rendererMainData.timeStep = 0.01
-	rendererMainData.background = '#141030'
+	rendererMainData.background = colorPalettes.backgrounds['blue void']
 	rendererMainData.angleRotationRates = [0.120409324, 0.05345673, 0.03738627] # arbitrary numbers
 
 
@@ -28,12 +28,22 @@ def schematicLabScript():
 class schematicLabData(DataHolder):
 
 
-	# Customize schematics
+	# Customize schematics	
 
 	def customizeAtom(self):
 		visible = True
 		schemName = 'cool atom'
-		schemObject = AtomSchematic(nOrbitals=10, nElectrons=100, nOrbitalSteps=100, electronSize=3)
+		colors = {'orbital colors': colorPalettes.ocean, 'electron fill': '#F0F0F0', 'electron outline': '#F0F0F0'}
+		setSpecs = {'electron size': 3, 'line width': 1.5}
+		orbitalSettings = {}
+
+		phi = (math.sqrt(5)+1)/2
+		orbitalSettings['elliptical range'] = [phi, phi]
+		orbitalSettings['radius range'] = [1, 1]
+		orbitalSettings['speed range'] = [1/phi, phi]
+
+		schemObject = AtomSchematic(nOrbitals=10, nElectrons=100, nOrbitalSteps=100, colors=colors,
+					    setSpecs=setSpecs, orbitalSettings=orbitalSettings)
 		includedFeatures = {'points': True, 'lines': True}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
@@ -42,16 +52,20 @@ class schematicLabData(DataHolder):
 	def customizeCube(self):
 		visible = True
 		schemName = 'cool cube'
-		schemObject = CubeSchematic(cubeRadius=0.05, color='#50E060', pointSize=2)
+		colors = {'line color': colorPalettes.fire[0]}
+		setSpecs = {'line width': 1}
+		schemObject = CubeSchematic(cubeRadius=0.05, colors=colors, setSpecs=setSpecs)
 		includedFeatures = {'points': False, 'lines': True, 'triangles': False}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
 
 	
 	def customizeRatio(self):
-		visible = True
+		visible = False
 		schemName = 'cool ratio'
-		schemObject = RatioSchem(trials=999, color='#00FF00')
+		colors = {'point fill': '#00F000', 'point outline': '#00F000'}
+		setSpecs = {}
+		schemObject = RatioSchem(trials=999, colors=colors, setSpecs=setSpecs)
 		includedFeatures = {'points': True}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
@@ -86,6 +100,7 @@ class schematicLabData(DataHolder):
 		self.namedSchematics[schemName]['schem object'] = schemObject
 		self.namedSchematics[schemName]['is dynamic'] = hasParent(schemObject, 'DynamicSchematic')
 		self.namedSchematics[schemName]['included features'] = includedFeatures
+		self.namedSchematics[schemName]['presets'] = {}
 
 
 	def removeDiscludedFeatures(self):
@@ -93,8 +108,6 @@ class schematicLabData(DataHolder):
 			for featureType in self.namedSchematics[schemName]['included features']:
 				if not self.namedSchematics[schemName]['included features'][featureType]:
 					self.namedSchematics[schemName]['schem object'].removeElements(featureType)
-
-
 
 
 schematicLabScript()
