@@ -4,18 +4,18 @@ from schematicFuncs import *
 
 
 class RatioSchem(BaseSchematic):
-    def __init__(self, trials, color='#F0F0F0', pointSize=2):
+    def __init__(self, trials, colors, setSpecs):
         self.trials = trials
-        self.color = color
-        self.pointSize = pointSize
+        self.colors = colors
+        self.setSpecs = setSpecs
 
         super().__init__()
 
 
     def createSchematic(self):
         points = self.runTrials()
-        self.schematic = [{'points': points, 'color': self.color, 'point size': self.pointSize}]
-        self.removeElements('lines', 'triangles')
+        self.schematic = [{'features': {'points': points}, 'colors': self.colors, 'set specs': self.setSpecs}]
+        # self.removeElements('lines', 'triangles')
 
 
     def runTrials(self):

@@ -7,11 +7,12 @@ from varStorage import *
 
 
 class AtomSchematic(BaseSchematic, DynamicSchematic):
-	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, electronSize=5):
+	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, colors, setSpecs):
 		self.nOrbitals = nOrbitals
 		self.nElectrons = nElectrons
 		self.nOrbitalSteps = nOrbitalSteps
-		self.electronSize = electronSize
+		self.colors = colors
+		self.setSpecs = setSpecs
 
 		super().__init__()
 	
@@ -24,7 +25,6 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 	def updateSchematic(self):
 		self.updateElectrons()
 		# want to add: 
-		# oscillating orbital sizes
 		# changing colors, not sure in what way yet
 		self.createSchemSets()
 
@@ -36,8 +36,9 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 			points, electrons, pointSize = orbital['points'], orbital['electron locations'], orbital['point size']
 			orbitalColor = orbital['orbital color']
 			electronColor = orbital['electron color']
-			
 			renderedPoints = [points[elec] for elec in electrons]
+
+			
 			pointSet = {}
 			pointSet['points'], pointSet['color'], pointSet['point size'] = renderedPoints, electronColor, pointSize
 			pointSet = fillBlankSet(pointSet)

@@ -28,7 +28,7 @@ def schematicLabScript():
 class schematicLabData(DataHolder):
 
 
-	# Customize schematics
+	# Customize schematics	
 
 	def customizeAtom(self):
 		visible = True
@@ -42,16 +42,16 @@ class schematicLabData(DataHolder):
 	def customizeCube(self):
 		visible = True
 		schemName = 'cool cube'
-		schemObject = CubeSchematic(cubeRadius=0.05, color='#50E060', pointSize=2)
+		schemObject = CubeSchematic(cubeRadius=0.05, fillColor='#50E060', outlineColor='#50E060', pointSize=2)
 		includedFeatures = {'points': False, 'lines': True, 'triangles': False}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
 
 	
 	def customizeRatio(self):
-		visible = True
+		visible = False
 		schemName = 'cool ratio'
-		schemObject = RatioSchem(trials=999, color='#00FF00')
+		schemObject = RatioSchem(trials=999, fillColor='#00FF00', outlineColor='#00F000')
 		includedFeatures = {'points': True}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
@@ -93,8 +93,6 @@ class schematicLabData(DataHolder):
 			for featureType in self.namedSchematics[schemName]['included features']:
 				if not self.namedSchematics[schemName]['included features'][featureType]:
 					self.namedSchematics[schemName]['schem object'].removeElements(featureType)
-
-
 
 
 schematicLabScript()
