@@ -8,7 +8,6 @@ from display import *
 
 def schemToStrokes(schematic):
     strokes = []
-
     thetas = updateRotation(rendererMainData.angleRotationRates)
     multMatrix = matricesData.rotationProjMat(thetas)
     strokes = [schemSetToStrokes(schemSet, multMatrix) for schemSet in schematic]
@@ -17,12 +16,15 @@ def schemToStrokes(schematic):
 
 
 def schemSetToStrokes(schemSet, multMatrix):
-    geometry = doProjections(multMatrix, schemSet['points'], schemSet['lines'], schemSet['triangles'])
+    features = schemSet['features']
+    geometry = doProjections(multMatrix, features['points'], features['lines'], features['triangles'])
     points, lines, triangles = [geometry[i] for i in ['points', 'lines', 'triangles']]
 
-    drawingDict = allCoordConversions(points, lines, triangles)
-    drawingDict['color'] = schemSet['color']
-    drawingDict['point size'] = schemSet['point size']
+    features = allCoordConversions(points, lines, triangles)
+    drawingDict = {}
+    drawingDict['features'] = features
+    drawingDict['colors'] = schemSet['colors']
+    drawingDict['set specs'] = schemSet['set specs']
 
     return drawingDict
 
@@ -48,8 +50,8 @@ def allCoordConversions(points, lines, triangles):
     allLinePixels = [[windowSetObj.coordsToPixel(line[i]) for i in range(len(line))] for line in lines]
     allTrianglePixels = [[windowSetObj.coordsToPixel(triangle[i]) for i in range(len(triangle))] for triangle in triangles]
 
-    drawingDict = {'points': allPointPixels, 'lines': allLinePixels, 'triangles': allTrianglePixels}
-    return drawingDict
+    features = {'points': allPointPixels, 'lines': allLinePixels, 'triangles': allTrianglePixels}
+    return features
 
 
 

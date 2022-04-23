@@ -1,15 +1,15 @@
 from listModification import *
-from varStorage import *
+from colorLab import *
 from schematicFuncs import *
 
 
 class CubeSchematic(BaseSchematic):
-    def __init__(self, cubeRadius, color='#F0F0F0', pointSize=2):
+    def __init__(self, cubeRadius, colors, setSpecs):
         self.schematic = []
         self.minCoord = -cubeRadius
         self.maxCoord = cubeRadius
-        self.color = color
-        self.pointSize = pointSize
+        self.colors = colors
+        self.setSpecs = setSpecs
 
         super().__init__()
 
@@ -25,9 +25,10 @@ class CubeSchematic(BaseSchematic):
         triangles = self.generateTriangles()
 
         theSchemSet = {}
-        theSchemSet['points'], theSchemSet['lines'], theSchemSet['triangles'] = points, lines, triangles
-        theSchemSet['color'] = self.color
-        theSchemSet['point size'] = self.pointSize
+        theSchemSet['features'] = {'points': points, 'lines': lines, 'triangles': triangles}
+        theSchemSet['colors'] = self.colors
+        theSchemSet['set specs'] = self.setSpecs
+        theSchemSet = fillBlankSet(theSchemSet)
 
         return theSchemSet
 

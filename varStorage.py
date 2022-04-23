@@ -8,7 +8,6 @@ def globalVarsScript():
 
 class DataHolder:
 	def __init__(self):
-		self.info = {}
 		self.timeCreated = time.time()
 
 

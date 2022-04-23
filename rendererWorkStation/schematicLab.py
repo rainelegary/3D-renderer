@@ -10,6 +10,7 @@ def schematicLabScript():
 	global rendererMainData
 	rendererMainData = GeneralData()
 	rendererMainData.timeStep = 0.01
+  
 	rendererMainData.background = colorPalettes.backgrounds['endless void']
 	rotationMultiplier = 5
 	rendererMainData.angleRotationRates = [
@@ -33,7 +34,7 @@ def schematicLabScript():
 class schematicLabData(DataHolder):
 
 
-	# Customize schematics
+	# Customize schematics	
 
 	def customizeAtom(self):
 		visible = True
@@ -56,9 +57,11 @@ class schematicLabData(DataHolder):
 
 	
 	def customizeRatio(self):
-		visible = True
+		visible = False
 		schemName = 'cool ratio'
-		schemObject = RatioSchem(trials=999, color='#00FF00')
+		colors = {'point fill': '#00F000', 'point outline': '#00F000'}
+		setSpecs = {}
+		schemObject = RatioSchem(trials=999, colors=colors, setSpecs=setSpecs)
 		includedFeatures = {'points': True}
 
 		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
@@ -93,6 +96,7 @@ class schematicLabData(DataHolder):
 		self.namedSchematics[schemName]['schem object'] = schemObject
 		self.namedSchematics[schemName]['is dynamic'] = hasParent(schemObject, 'DynamicSchematic')
 		self.namedSchematics[schemName]['included features'] = includedFeatures
+		self.namedSchematics[schemName]['presets'] = {}
 
 
 	def removeDiscludedFeatures(self):
@@ -100,8 +104,6 @@ class schematicLabData(DataHolder):
 			for featureType in self.namedSchematics[schemName]['included features']:
 				if not self.namedSchematics[schemName]['included features'][featureType]:
 					self.namedSchematics[schemName]['schem object'].removeElements(featureType)
-
-
 
 
 schematicLabScript()

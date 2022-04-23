@@ -8,11 +8,13 @@ from rendererWorkStation.colorLab import *
 
 
 class AtomSchematic(BaseSchematic, DynamicSchematic):
-	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, electronSize=5):
+	def __init__(self, nOrbitals, nElectrons, nOrbitalSteps, colors, setSpecs, orbitalSettings):
 		self.nOrbitals = nOrbitals
 		self.nElectrons = nElectrons
 		self.nOrbitalSteps = nOrbitalSteps
-		self.electronSize = electronSize
+		self.colors = colors
+		self.setSpecs = setSpecs
+		self.orbitalSettings = orbitalSettings
 
 		super().__init__()
 	
@@ -25,7 +27,6 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 	def updateSchematic(self):
 		self.updateElectrons()
 		# want to add: 
-		# oscillating orbital sizes
 		# changing colors, not sure in what way yet
 		self.createSchemSets()
 
@@ -34,22 +35,20 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 		schematic = []
 		orbitals = self.orbitalSet
 		for orbital in orbitals:
-			points, electrons, pointSize = orbital['points'], orbital['electron locations'], orbital['point size']
-			orbitalColor = orbital['orbital color']
-			electronColor = orbital['electron color']
-			
+			# {'points': [], 'electron locations': [], 'orbital color': '#036BFC', 'electron fill': '#F0F0F0', 'electron outline': '#F0F0F0', 'electron size': electronSize}
+			points, electrons = orbital['points'], orbital['electron locations']
+			colors = {'point fill': orbital['electron fill'],
+			'point outline': orbital['electron outline'],
+		        'line color': orbital['orbital color']}
+
 			renderedPoints = [points[elec] for elec in electrons]
-			pointSet = {}
-			pointSet['points'], pointSet['color'], pointSet['point size'] = renderedPoints, electronColor, pointSize
-			pointSet = fillBlankSet(pointSet)
-
 			lines = createRunningLine(points, closeShape=True)
-			lineSet = {}
-			lineSet['lines'], lineSet['color'] = lines, orbitalColor
-			lineSet = fillBlankSet(lineSet)
 
-			schematic.append(pointSet)
-			schematic.append(lineSet)
+			schemSet = {'features': {'points': renderedPoints, 'lines': lines},
+			'colors': {'point fill': colors['point fill'], 'point outline': colors['point outline'], 'line color': colors['line color']},
+			'set specs': {'point size': orbital['electron size'], 'line width': self.setSpecs['line width']}}
+			schemSet = fillBlankSet(schemSet)
+			schematic.append(schemSet)
 
 		self.schematic = schematic
 
@@ -58,17 +57,22 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 		nOrbitals = self.nOrbitals
 		nElectrons = self.nElectrons
 		nOrbitalSteps = self.nOrbitalSteps
-		electronSize = self.electronSize
+		setSpecs = self.setSpecs
+		orbitalSettings = self.orbitalSettings
 
+		# phi = (math.sqrt(5)+1)/2
+		# ellipticalRange = [phi, phi]
+		# radiusRange = [1, 1]
+		# speedRange = [1/phi, phi]
 
-		phi = (math.sqrt(5)+1)/2
-		ellipticalRange = [phi, phi]
-		radiusRange = [1, 1]
-		speedRange = [1/phi, phi]
+		ellipticalRange, radiusRange, speedRange = orbitalSettings['elliptical range'], orbitalSettings['radius range'], orbitalSettings['speed range']
+
 
 		allOrbitals = []
 
 		for orbital in range(nOrbitals):
+			colors = self.colors
+			colors['orbital color'] = random.choice(colors['orbital colors'])
 			
 			colorIndex = random.randint(0, 3)
 			orbitalColor = colorPalettes.ocean[colorIndex]

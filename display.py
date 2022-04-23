@@ -37,6 +37,7 @@ class WindowSet:
 
 
     def drawFeatures(self, drawingDict):
+
         points = drawingDict['points']
         lines = drawingDict['lines']
         triangles = drawingDict['triangles']
@@ -46,23 +47,28 @@ class WindowSet:
         self.drawTriangles(triangles, color)
         self.drawLines(lines, color)
         self.drawPoints(points, color, pointSize)
-        
-
     
-    def drawPoints(self, points, color, pointSize):
+
+    def drawPoints(self, points, fillColor, outlineColor, pointSize):
          for point in points:
              self.ownCanvas.create_oval(point[0][0]-pointSize/2, point[0][1]-pointSize/2, point[0][0]+pointSize/2, point[0][1]+pointSize/2,
-                                    fill=color, outline=color)
+                                    fill=fillColor, outline=outlineColor)
 
 
-    def drawLines(self, lines, color):
+    def drawLines(self, lines, color, lineWidth):
          for line in lines:
-            self.ownCanvas.create_line(line, fill=color)
+            self.ownCanvas.create_line(line, fill=color, width=lineWidth)
 
     
-    def drawTriangles(self, triangles, color):
+    def drawTriangleFills(self, triangles, fillColor):
         for triangle in triangles:
-            self.ownCanvas.create_polygon(triangle, fill=color)
+            self.ownCanvas.create_polygon(triangle, fill=fillColor)
+
+
+    def drawTriangleOutlines(self, triangles, outlineColor, outlineWidth):
+        for triangle in triangles:
+                outline = createRunningLine(triangle)
+                self.drawLines(outline, outlineColor, outlineWidth)
 
 
 
