@@ -4,6 +4,7 @@ import random
 from schematicFuncs import *
 from linearAlgebra.specialMatrices import *
 from varStorage import *
+from rendererWorkStation.colorLab import *
 
 
 class AtomSchematic(BaseSchematic, DynamicSchematic):
@@ -69,7 +70,10 @@ class AtomSchematic(BaseSchematic, DynamicSchematic):
 
 		for orbital in range(nOrbitals):
 			
-			orbitProperties = {'points': [], 'electron locations': [], 'orbital color': '#036BFC', 'electron color': '#F0F0F0', 'point size': electronSize}
+			colorIndex = random.randint(0, 3)
+			orbitalColor = colorPalettes.ocean[colorIndex]
+			electronColor = colorPalettes.electric[2]
+			orbitProperties = {'points': [], 'electron locations': [], 'orbital color': orbitalColor, 'electron color': electronColor, 'point size': electronSize}
 
 			# angles and dynamic radius
 			angleRadList = self.dynamicRadius(radiusRange, ellipticalRange, speedRange, nOrbitalSteps)

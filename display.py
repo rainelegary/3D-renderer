@@ -43,9 +43,10 @@ class WindowSet:
         color = drawingDict['color']
         pointSize = drawingDict['point size']
 
-        self.drawPoints(points, color, pointSize)
-        self.drawLines(lines, color)
         self.drawTriangles(triangles, color)
+        self.drawLines(lines, color)
+        self.drawPoints(points, color, pointSize)
+        
 
     
     def drawPoints(self, points, color, pointSize):
