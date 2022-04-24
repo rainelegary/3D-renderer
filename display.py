@@ -37,16 +37,17 @@ class WindowSet:
 
 
     def drawFeatures(self, drawingDict):
+        features = drawingDict['features']
+        colors = drawingDict['colors']
+        setSpecs = drawingDict['set specs']
+        pointSize = setSpecs['point size']
+        outlineTriangles = setSpecs['outline triangles']
+        lineWidth = setSpecs['line width']
 
-        points = drawingDict['points']
-        lines = drawingDict['lines']
-        triangles = drawingDict['triangles']
-        color = drawingDict['color']
-        pointSize = drawingDict['point size']
-
-        self.drawTriangles(triangles, color)
-        self.drawLines(lines, color)
-        self.drawPoints(points, color, pointSize)
+        self.drawLines(features['lines'], colors['line color'], lineWidth=lineWidth)
+        self.drawPoints(features['points'], colors['point fill'], colors['point outline'], pointSize)
+        self.drawTriangleFills(features['triangles'], colors['triangle fill'])
+        if outlineTriangles: self.drawTriangleOutlines(features['triangles'], colors['triangle outline'], lineWidth)
     
 
     def drawPoints(self, points, fillColor, outlineColor, pointSize):

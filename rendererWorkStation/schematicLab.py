@@ -10,14 +10,8 @@ def schematicLabScript():
 	global rendererMainData
 	rendererMainData = GeneralData()
 	rendererMainData.timeStep = 0.01
-  
-	rendererMainData.background = colorPalettes.backgrounds['endless void']
-	rotationMultiplier = 5
-	rendererMainData.angleRotationRates = [
-		0.120409324*rotationMultiplier, 
-		0.05345673*rotationMultiplier, 
-		0.03738627*rotationMultiplier
-		] # arbitrary numbers
+	rendererMainData.background = colorPalettes.backgrounds['blue void']
+	rendererMainData.angleRotationRates = [0.120409324, 0.05345673, 0.03738627] # arbitrary numbers
 
 
 	global schematicStructure
@@ -39,21 +33,31 @@ class schematicLabData(DataHolder):
 	def customizeAtom(self):
 		visible = True
 		schemName = 'cool atom'
-		schemObject = AtomSchematic(nOrbitals=6, nElectrons=100, nOrbitalSteps=100, electronSize=2.5)
+		colors = {'orbital colors': colorPalettes.ocean, 'electron fill': '#F0F0F0', 'electron outline': '#F0F0F0'}
+		setSpecs = {'electron size': 3, 'line width': 1.5}
+		orbitalSettings = {}
+
+		phi = (math.sqrt(5)+1)/2
+		orbitalSettings['elliptical range'] = [phi, phi]
+		orbitalSettings['radius range'] = [1, 1]
+		orbitalSettings['speed range'] = [1/phi, phi]
+
+		schemObject = AtomSchematic(nOrbitals=10, nElectrons=100, nOrbitalSteps=100, colors=colors,
+					    setSpecs=setSpecs, orbitalSettings=orbitalSettings)
 		includedFeatures = {'points': True, 'lines': True}
 
-		if visible: 
-			self.addToNamedSchems(schemName, schemObject, includedFeatures)
+		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
 
 
 	def customizeCube(self):
 		visible = True
 		schemName = 'cool cube'
-		schemObject = CubeSchematic(cubeRadius=0.05, color=colorPalettes.electric[2], pointSize=2)
+		colors = {'line color': colorPalettes.fire[0]}
+		setSpecs = {'line width': 1}
+		schemObject = CubeSchematic(cubeRadius=0.05, colors=colors, setSpecs=setSpecs)
 		includedFeatures = {'points': False, 'lines': True, 'triangles': False}
 
-		if visible: 
-			self.addToNamedSchems(schemName, schemObject, includedFeatures)
+		if visible: self.addToNamedSchems(schemName, schemObject, includedFeatures)
 
 	
 	def customizeRatio(self):
@@ -79,7 +83,7 @@ class schematicLabData(DataHolder):
 	def activateSchematics(self):
 		self.customizeAtom()
 		self.customizeCube()
-		# self.customizeRatio()
+		self.customizeRatio()
 
 
 	def updateSchematics(self):
